@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "808037608260",
+    "project_id": "chattharwat",
+    "storage_bucket": "chattharwat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808037608260:android:bc29da0b37abf2a5010511",
+        "android_client_info": {
+          "package_name": "com.example.chat_tharwat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808037608260-7g4u2qpn9n880hl1pu24qnlijbr2t82g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnwRezYNMZ_Pu521aXXEQ5IukbN7Ws3vA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808037608260-7g4u2qpn9n880hl1pu24qnlijbr2t82g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

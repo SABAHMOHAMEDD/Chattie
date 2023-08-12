@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextFormField extends StatelessWidget {
   String? hintText;
   Color? hintTextColor;
+  Function(String)? onchanged;
+  String? validatemsg;
+  String? Function(String?)? validator;
 
-  CustomTextField({this.hintText, this.hintTextColor});
+  CustomTextFormField(
+      {this.hintText, this.hintTextColor, this.onchanged, this.validator});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: validator,
+      onChanged: onchanged,
       style: TextStyle(color: Colors.white),
       cursorColor: Colors.blueGrey.shade100,
       decoration: InputDecoration(
@@ -24,7 +30,11 @@ class CustomTextField extends StatelessWidget {
                 Radius.circular(8),
               ),
               borderSide: BorderSide(color: Colors.white)),
-          border: InputBorder.none),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
+              ),
+              borderSide: BorderSide(color: Colors.white))),
     );
   }
 }
