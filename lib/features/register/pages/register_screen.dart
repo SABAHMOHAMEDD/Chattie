@@ -1,4 +1,6 @@
+import 'package:chat_tharwat/core/cache_helper.dart';
 import 'package:chat_tharwat/features/login/pages/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -6,6 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../../core/widgets/show_snack_bar.dart';
+import '../models/user_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "RegisterScreen";
@@ -16,6 +19,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   String? email;
+  String? name;
 
   String? password;
   final formKey = GlobalKey<FormState>();
@@ -39,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: screenSize.height / 6,
+                      height: screenSize.height / 9,
                     ),
                     Image(image: AssetImage("assets/images/scholar.png")),
                     const Text(
@@ -66,6 +70,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     Column(
                       children: [
+                        CustomTextFormField(
+                          hintText: "Name",
+                          hintTextColor: Colors.white,
+                          onchanged: (data) {
+                            name = data;
+                          },
+                          validator: (data) {
+                            if (data!.isEmpty) {
+                              return "please enter name";
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         CustomTextFormField(
                           hintText: "Email",
                           hintTextColor: Colors.white,
@@ -105,10 +124,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           try {
                             isLoading = true;
                             setState(() {});
-                            UserCredential credential = await registerUser();
-                            print(credential.user!.email);
+                            registerUser();
                             showSnackBar(
                                 context, "You Registered Successfully");
+                            Navigator.pushReplacementNamed(
+                              context,
+                              LoginScreen.routeName,
+                            );
                           } on FirebaseAuthException catch (ex) {
                             if (ex.code == 'weak-password') {
                               showSnackBar(context,
@@ -154,12 +176,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ));
   }
 
-  Future<UserCredential> registerUser() async {
-    final credential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  void registerUser() async {
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
       email: email!,
       password: password!,
+    )
+        .then((value) {
+      UserCreate(name: name!, email: email!, uId: value.user!.uid);
+      CacheHelper.saveData(key: 'uId', value: value.user!.uid);
+    });
+  }
+
+  void UserCreate({
+    required String name,
+    required String email,
+    required String uId,
+  }) {
+    UserModel model = UserModel(
+      name: name,
+      email: email,
+      uId: uId,
     );
-    return credential;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .set(model.toJson())
+        .then((value) {})
+        .catchError((error) {
+      print(error.toString());
+    });
   }
 }

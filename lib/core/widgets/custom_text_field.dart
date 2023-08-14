@@ -18,30 +18,33 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscureText,
-      validator: validator,
-      onChanged: onchanged,
-      style: TextStyle(color: Colors.white),
-      cursorColor: Colors.blueGrey.shade100,
-      decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: hintTextColor),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              )),
-          enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-              borderSide: BorderSide(color: Colors.white)),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-              borderSide: BorderSide(color: Colors.white))),
+    return Container(
+      height: 60,
+      child: TextFormField(
+        obscureText: obscureText,
+        validator: validator,
+        onChanged: onchanged,
+        style: TextStyle(color: Colors.white),
+        cursorColor: Colors.blueGrey.shade100,
+        decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(color: hintTextColor),
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                )),
+            enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+                borderSide: BorderSide(color: Colors.white)),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+                borderSide: BorderSide(color: Colors.white))),
+      ),
     );
   }
 }

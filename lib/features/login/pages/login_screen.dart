@@ -1,4 +1,4 @@
-import 'package:chat_tharwat/features/chat/pages/chat_screen.dart';
+import 'package:chat_tharwat/features/chats_grid/pages/chat_grid_screen.dart';
 import 'package:chat_tharwat/features/login/cubit/login_cubit.dart';
 import 'package:chat_tharwat/features/register/pages/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +29,10 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginLoadingState) {
         } else if (state is LoginSuccessState) {
           showSnackBar(context, "You Login Successfully");
-          Navigator.pushReplacementNamed(context, ChatScreen.routeName,
-              arguments: email);
+          Navigator.pushReplacementNamed(
+            context,
+            ChatGridScreen.routeName,
+          );
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           print(email);
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -54,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: screenSize.height / 6,
+                          height: screenSize.height / 9,
                         ),
                         const Image(
                             image: AssetImage("assets/images/scholar.png")),

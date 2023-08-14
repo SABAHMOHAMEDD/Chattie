@@ -10,7 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/cache_helper.dart';
 import 'core/notification_helper.dart';
+import 'features/chat/cubit/chat_cubit.dart';
+import 'features/chats_grid/pages/chat_grid_screen.dart';
 import 'features/login/cubit/login_cubit.dart';
 import 'firebase_options.dart';
 
@@ -26,6 +29,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await CacheHelper.init();
+  final String? uId = CacheHelper.getData(key: 'uId');
+  print(uId);
+
   runApp(const MyApp());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom]);
@@ -58,6 +66,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
+        BlocProvider(create: (context) => ChatCubit()..GetUserData()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -66,12 +75,13 @@ class _MyAppState extends State<MyApp> {
           RegisterScreen.routeName: (context) => RegisterScreen(),
           ChatScreen.routeName: (context) => ChatScreen(),
           SplashScreen.routeName: (context) => SplashScreen(),
+          ChatGridScreen.routeName: (context) => ChatGridScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: KprimaryColor),
           useMaterial3: true,
         ),
-        initialRoute: SplashScreen.routeName,
+        initialRoute: LoginScreen.routeName,
       ),
     );
   }
