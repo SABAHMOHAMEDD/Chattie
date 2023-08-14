@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
   String? hintText;
+  bool obscureText = false;
   Color? hintTextColor;
   Function(String)? onchanged;
   String? validatemsg;
   String? Function(String?)? validator;
 
   CustomTextFormField(
-      {this.hintText, this.hintTextColor, this.onchanged, this.validator});
+      {this.hintText,
+      this.hintTextColor,
+      this.onchanged,
+      this.validator,
+      this.obscureText = false,
+      this.validatemsg});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText,
       validator: validator,
       onChanged: onchanged,
       style: TextStyle(color: Colors.white),

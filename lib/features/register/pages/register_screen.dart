@@ -1,11 +1,11 @@
-import 'package:chat_tharwat/pages/login_screen.dart';
+import 'package:chat_tharwat/features/login/pages/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import '../core/widgets/custom_button.dart';
-import '../core/widgets/custom_text_field.dart';
-import '../core/widgets/show_snack_bar.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../../../core/widgets/show_snack_bar.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "RegisterScreen";
@@ -64,39 +64,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    Form(
-                      key: formKey,
-                      child: Column(
-                        children: [
-                          CustomTextFormField(
-                            hintText: "Email",
-                            hintTextColor: Colors.white,
-                            onchanged: (data) {
-                              email = data;
-                            },
-                            validator: (data) {
-                              if (data!.isEmpty) {
-                                return "please enter email";
-                              }
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CustomTextFormField(
-                            validator: (data) {
-                              if (data!.isEmpty) {
-                                return "please enter password";
-                              }
-                            },
-                            hintText: "Password",
-                            hintTextColor: Colors.white,
-                            onchanged: (data) {
-                              password = data;
-                            },
-                          ),
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        CustomTextFormField(
+                          hintText: "Email",
+                          hintTextColor: Colors.white,
+                          onchanged: (data) {
+                            email = data;
+                          },
+                          validator: (data) {
+                            if (data!.isEmpty) {
+                              return "please enter email";
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextFormField(
+                          obscureText: true,
+                          validator: (data) {
+                            if (data!.isEmpty) {
+                              return "please enter password";
+                            }
+                          },
+                          hintText: "Password",
+                          hintTextColor: Colors.white,
+                          onchanged: (data) {
+                            password = data;
+                          },
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: screenSize.height / 35,
