@@ -1,26 +1,26 @@
-import 'package:chat_tharwat/features/chat/cubit/chat_cubit.dart';
 import 'package:chat_tharwat/features/chat/models/messages_model.dart';
+import 'package:chat_tharwat/features/login/cubit/login_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constance/constants.dart';
 import '../../../core/widgets/chat_bubble.dart';
-import '../cubit/chat_states.dart';
+import '../../login/cubit/login_states.dart';
 
-class ChatScreen extends StatefulWidget {
+class EmaxChatScreen extends StatefulWidget {
   static const routeName = "HomeScreen";
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<EmaxChatScreen> createState() => _EmaxChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _EmaxChatScreenState extends State<EmaxChatScreen> {
   final TextEditingController messagecontroller = TextEditingController();
   final ScrollController scrollController = ScrollController();
 
   final Stream<QuerySnapshot> messagesStream = FirebaseFirestore.instance
-      .collection(KMessagesCollection)
+      .collection(emaxCollection)
       .orderBy(kCreatedAt)
       .snapshots();
 
@@ -35,16 +35,16 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    ChatCubit.get(context).GetUserData();
+    LoginCubit.get(context).GetUserData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     CollectionReference messeges =
-        FirebaseFirestore.instance.collection(KMessagesCollection);
+        FirebaseFirestore.instance.collection(emaxCollection);
 
-    return BlocConsumer<ChatCubit, ChatStates>(
+    return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is GetUserSuccessState) {
@@ -106,10 +106,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                             messageslist[index].userName ?? "",
                                       )
                                     : ChatBubbleFriend(
-                                        message:
+                                  message:
                                             messageslist[index].message ?? "",
                                         userName:
                                             messageslist[index].userName ?? "",
+                                        userBubbleColor: userBubbleColor(
+                                            messageslist[index].userColor),
                                       );
                               }),
                         ),
@@ -135,11 +137,17 @@ class _ChatScreenState extends State<ChatScreen> {
                                         messeges.add({
                                           'message': messagecontroller.text,
                                           'createdAt': DateTime.now(),
-                                          'id': uId,
-                                          'userName': ChatCubit.get(context)
+                                          'id': LoginCubit.get(context)
+                                              .model!
+                                              .uId,
+                                          'userName': LoginCubit.get(context)
                                                   .model!
                                                   .name ??
-                                              ""
+                                              "",
+                                          'userColor': LoginCubit.get(context)
+                                                  .model!
+                                                  .userBubbleColorId ??
+                                              0
                                         });
                                         messagecontroller.clear();
 
@@ -195,5 +203,20 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       },
     );
+  }
+
+  userBubbleColor(int? userBubbleColorId) {
+    switch (userBubbleColorId) {
+      case 0:
+        return Colors.orange.shade200;
+      case 1:
+        return Colors.blue.shade200;
+      case 2:
+        return Colors.green.shade200;
+      case 3:
+        return Colors.pink.shade200;
+      default:
+        return Colors.blue.shade100;
+    }
   }
 }

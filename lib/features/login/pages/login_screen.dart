@@ -27,16 +27,22 @@ class LoginScreen extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
         if (state is LoginLoadingState) {
+          isLoading = true;
         } else if (state is LoginSuccessState) {
+          isLoading = false;
+
           showSnackBar(context, "You Login Successfully");
           Navigator.pushReplacementNamed(
             context,
             ChatGridScreen.routeName,
           );
+
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           print(email);
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         } else if (state is LoginFailureState) {
+          isLoading = false;
+
           showSnackBar(context, state.errorMessage.toString());
         }
       },
@@ -61,7 +67,7 @@ class LoginScreen extends StatelessWidget {
                         const Image(
                             image: AssetImage("assets/images/scholar.png")),
                         const Text(
-                          "Scholar Chat",
+                          "AlHarethi Chat",
                           style: TextStyle(
                               fontFamily: "Schyler",
                               color: Colors.white,

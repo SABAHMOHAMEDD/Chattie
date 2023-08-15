@@ -44,8 +44,12 @@ class ChatBubble extends StatelessWidget {
 class ChatBubbleFriend extends StatelessWidget {
   final String message;
   final String userName;
+  final Color userBubbleColor;
 
-  ChatBubbleFriend({required this.message, required this.userName});
+  ChatBubbleFriend(
+      {required this.message,
+      required this.userName,
+      required this.userBubbleColor});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class ChatBubbleFriend extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.deepOrangeAccent.withOpacity(0.6),
+            color: userBubbleColor,
             borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(14),
                 bottomRight: Radius.circular(14),

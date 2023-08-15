@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
         children: [
           Image(image: AssetImage(KLogo)),
           const Text(
-            "Scholar Chat",
+            "AlHarethi Chat",
             style: TextStyle(
                 fontFamily: "Schyler", color: Colors.white, fontSize: 24),
           ),

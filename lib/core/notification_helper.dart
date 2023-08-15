@@ -42,7 +42,6 @@ class NotificationHelper {
       print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     });
 
-    ///
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {

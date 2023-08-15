@@ -1,19 +1,31 @@
 import 'package:chat_tharwat/features/login/cubit/login_states.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../core/cache_helper.dart';
+import '../../register/models/user_model.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitState());
 
+  static LoginCubit get(context) => BlocProvider.of(context);
+
   void loginUser(String? email, String? password) async {
     try {
       emit(LoginLoadingState());
-      UserCredential user =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
         email: email!,
         password: password!,
-      );
-      emit(LoginSuccessState());
+      )
+          .then((value) {
+        CacheHelper.saveData(key: 'uId', value: value.user!.uid);
+        print("user uId is : ${value.user!.uid}");
+        GetUserData();
+        emit(LoginSuccessState());
+      });
     } on FirebaseAuthException catch (ex) {
       if (ex.code == 'user-not-found') {
         emit(LoginFailureState(errorMessage: "No user found for that email"));
@@ -24,5 +36,25 @@ class LoginCubit extends Cubit<LoginStates> {
     } on Exception catch (ex) {
       emit(LoginFailureState(errorMessage: ex.toString()));
     }
+  }
+
+  UserModel? model;
+
+  void GetUserData() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(CacheHelper.getData(key: 'uId'))
+        .get()
+        .then((value) {
+      print(value.data());
+
+      model = UserModel.fromJson(value.data()!);
+      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+      emit(GetUserSuccessState(userModel: model));
+      print(model!.name);
+      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    }).catchError((error) {
+      print(error.toString());
+    });
   }
 }

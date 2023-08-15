@@ -2,11 +2,13 @@ class UserModel {
   String? name;
   String? email;
   String? uId;
+  int? userBubbleColorId;
 
   UserModel({
     this.name,
     this.email,
     this.uId,
+    this.userBubbleColorId,
   });
 
   UserModel.fromJson(Map<String, dynamic> json)
@@ -14,6 +16,7 @@ class UserModel {
           name: json['name'],
           email: json['email'],
           uId: json['uId'],
+          userBubbleColorId: json['userBubbleColorId'],
         );
 
   Map<String, dynamic> toJson() {
@@ -21,6 +24,7 @@ class UserModel {
       'name': name,
       'email': email,
       'uId': uId,
+      'userBubbleColorId': userBubbleColorId,
     };
   }
 }
