@@ -10,6 +10,37 @@ class ChatGridScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // bottomNavigationBar: Container(
+      //   padding: EdgeInsets.only(left: 40, bottom: 10, top: 10, right: 40),
+      //   height: 60,
+      //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
+      //     BoxShadow(
+      //         offset: Offset(10, -10),
+      //         blurRadius: 35,
+      //         color: Colors.white.withOpacity(.2))
+      //   ]),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: [
+      //       IconButton(
+      //         onPressed: () {},
+      //         icon: Icon(Icons.home,color: KprimaryColor,),
+      //       ), IconButton(
+      //         onPressed: () {},
+      //         icon: Icon(Icons.message,color: KprimaryColor,),
+      //       ),
+      //       IconButton(
+      //         onPressed: () {},
+      //         icon: Icon(Icons.group,color: KprimaryColor,),
+      //       ),
+      //       IconButton(
+      //         onPressed: () {},
+      //         icon: Icon(Icons.settings,color: KprimaryColor,),
+      //       )
+      //     ],
+      //   ),
+      // ),
+
       backgroundColor: KprimaryColor,
       body: Container(
         width: double.infinity,

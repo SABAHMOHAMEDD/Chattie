@@ -1,8 +1,10 @@
+import 'package:chat_tharwat/features/splash/pages/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../features/login/pages/login_screen.dart';
+import '../../features/register/models/user_model.dart';
 import '../cache_helper.dart';
 
 const String KLogo = "assets/images/scholar.png";
@@ -13,15 +15,39 @@ const String kCreatedAt = "createdAt";
 final String? uId = CacheHelper.getData(key: 'uId');
 
 void SignOut(context) async {
+  await CacheHelper.init();
+  final String? uId = CacheHelper.getData(key: 'uId');
+  print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+  print(uId);
+  print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+  clearCachedData();
   await FirebaseAuth.instance.signOut();
   // removeDocument();
+
   CacheHelper.removeData(key: 'uId').then((value) {
     if (value) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      Navigator.pushReplacementNamed(context, SplashScreen.routeName);
       print("44444444444444444444444");
       print(CacheHelper.getData(key: 'uId'));
       print("44444444444444444444444");
     }
+  });
+  RemoveUserData();
+}
+
+UserModel? model;
+
+void RemoveUserData() {
+  FirebaseFirestore.instance
+      .collection('users')
+      .doc(CacheHelper.getData(key: 'uId'))
+      .delete()
+      .then((value) {
+    print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    print(model!.uId);
+    print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+  }).catchError((error) {
+    print(error.toString());
   });
 }
 
@@ -41,4 +67,13 @@ void removeDocument() {
   }).catchError((error) {
     print('Failed to remove document: $error');
   });
+}
+
+void clearCachedData() async {
+  final storage = FlutterSecureStorage();
+
+  // Delete the cached data
+  await storage.deleteAll();
+
+  print('Cached data cleared successfully.');
 }

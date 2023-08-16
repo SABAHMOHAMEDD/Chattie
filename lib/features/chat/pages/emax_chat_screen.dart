@@ -1,12 +1,12 @@
 import 'package:chat_tharwat/features/chat/models/messages_model.dart';
-import 'package:chat_tharwat/features/login/cubit/login_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constance/constants.dart';
 import '../../../core/widgets/chat_bubble.dart';
-import '../../login/cubit/login_states.dart';
+import '../cubit/chat_cubit.dart';
+import '../cubit/chat_states.dart';
 
 class EmaxChatScreen extends StatefulWidget {
   static const routeName = "HomeScreen";
@@ -35,7 +35,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
 
   @override
   void initState() {
-    LoginCubit.get(context).GetUserData();
+    ChatCubit.get(context).GetUserData();
     super.initState();
   }
 
@@ -44,7 +44,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
     CollectionReference messeges =
         FirebaseFirestore.instance.collection(emaxCollection);
 
-    return BlocConsumer<LoginCubit, LoginStates>(
+    return BlocConsumer<ChatCubit, ChatStates>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is GetUserSuccessState) {
@@ -52,26 +52,40 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
             stream: messagesStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                return Text('Something went wrong');
+                return const Center(child: Text('Something went wrong'));
               } else if (snapshot.hasData) {
                 List<MessagesModel> messageslist = [];
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
                   messageslist
                       .add(MessagesModel.fromJason(snapshot.data!.docs[i]));
+                  print("ooooooooooooooooooooooooooo");
+                  print(messageslist[i].id);
+                  print("ooooooooooooooooooooooooooo");
                 }
-
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (messageslist.isNotEmpty) {
                     scrollController.animateTo(
                       scrollController.position.maxScrollExtent,
-                      duration: Duration(milliseconds: 100),
+                      duration: const Duration(milliseconds: 100),
                       curve: Curves.easeInOut,
                     );
                   }
                 });
 
                 return Scaffold(
+                    backgroundColor: KprimaryColor,
                     appBar: AppBar(
+                      toolbarHeight: 100,
+                      leading: Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: IconButton(
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back_ios),
+                        ),
+                      ),
                       backgroundColor: Colors.blueGrey,
                       automaticallyImplyLeading: false,
                       centerTitle: true,
@@ -84,110 +98,126 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                             fit: BoxFit.cover,
                           ),
                           Text(
-                            "Chat",
+                            "Emax",
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
                     ),
-                    body: Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                              controller: scrollController,
-                              itemCount: messageslist.length,
-                              shrinkWrap: false,
-                              itemBuilder: (context, index) {
-                                return messageslist[index].id == uId
-                                    ? ChatBubble(
-                                        message:
-                                            messageslist[index].message ?? "",
-                                        userName:
-                                            messageslist[index].userName ?? "",
-                                      )
-                                    : ChatBubbleFriend(
-                                  message:
-                                            messageslist[index].message ?? "",
-                                        userName:
-                                            messageslist[index].userName ?? "",
-                                        userBubbleColor: userBubbleColor(
-                                            messageslist[index].userColor),
-                                      );
-                              }),
-                        ),
-                        Container(
-                          height: 70,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 8),
-                            child: TextField(
-                              onSubmitted: (message) {
-                                messeges.add({'message': message});
-                                messagecontroller.clear();
-                              },
-                              controller: messagecontroller,
-                              //   maxLines: null,
-                              textInputAction: TextInputAction.newline,
-                              keyboardType: TextInputType.multiline,
-                              cursorColor: Colors.blueGrey,
-                              style: const TextStyle(color: Colors.blueGrey),
-                              decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        messeges.add({
-                                          'message': messagecontroller.text,
-                                          'createdAt': DateTime.now(),
-                                          'id': LoginCubit.get(context)
-                                              .model!
-                                              .uId,
-                                          'userName': LoginCubit.get(context)
-                                                  .model!
-                                                  .name ??
-                                              "",
-                                          'userColor': LoginCubit.get(context)
-                                                  .model!
-                                                  .userBubbleColorId ??
-                                              0
-                                        });
-                                        messagecontroller.clear();
+                    body: Container(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(45),
+                              topRight: Radius.circular(45))),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                                controller: scrollController,
+                                itemCount: messageslist.length,
+                                shrinkWrap: false,
+                                itemBuilder: (context, index) {
+                                  print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                                  print(uId);
+                                  print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
-                                        scrollController.jumpTo(scrollController
-                                            .position.maxScrollExtent);
-                                        scrollController.animateTo(
-                                          scrollController
-                                              .position.maxScrollExtent,
-                                          duration:
-                                              const Duration(milliseconds: 100),
-                                          curve: Curves.easeIn,
+                                  return messageslist[index].id ==
+                                          ChatCubit.get(context).model!.uId
+                                      ? ChatBubble(
+                                          message:
+                                              messageslist[index].message ?? "",
+                                          userName:
+                                              messageslist[index].userName ??
+                                                  "",
+                                        )
+                                      : ChatBubbleFriend(
+                                          message:
+                                              messageslist[index].message ?? "",
+                                          userName:
+                                              messageslist[index].userName ??
+                                                  "",
+                                          userBubbleColor: userBubbleColor(
+                                              messageslist[index].userColor),
                                         );
-                                      },
-                                      icon: const Icon(Icons.send,
-                                          color: Colors.blueGrey)),
-                                  hintText: "Send a message",
-                                  hintStyle:
-                                      const TextStyle(color: Colors.blueGrey),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.blueGrey),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(18),
-                                      )),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(18),
-                                      ),
-                                      borderSide:
-                                          BorderSide(color: Colors.blueGrey)),
-                                  border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(18),
-                                      ),
-                                      borderSide:
-                                          BorderSide(color: Colors.white))),
-                            ),
+                                }),
                           ),
-                        )
-                      ],
+                          Container(
+                            height: 70,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 8),
+                              child: TextField(
+                                onSubmitted: (message) {
+                                  messeges.add({'message': message});
+                                  messagecontroller.clear();
+                                },
+                                controller: messagecontroller,
+                                //   maxLines: null,
+                                textInputAction: TextInputAction.newline,
+                                keyboardType: TextInputType.multiline,
+                                cursorColor: Colors.blueGrey,
+                                style: const TextStyle(color: Colors.blueGrey),
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          messeges.add({
+                                            'message': messagecontroller.text,
+                                            'createdAt': DateTime.now(),
+                                            'id': ChatCubit.get(context)
+                                                .model!
+                                                .uId,
+                                            'userName': ChatCubit.get(context)
+                                                    .model!
+                                                    .name ??
+                                                "",
+                                            'userColor': ChatCubit.get(context)
+                                                    .model!
+                                                    .userBubbleColorId ??
+                                                0
+                                          });
+                                          messagecontroller.clear();
+
+                                          scrollController.jumpTo(
+                                              scrollController
+                                                  .position.maxScrollExtent);
+                                          scrollController.animateTo(
+                                            scrollController
+                                                .position.maxScrollExtent,
+                                            duration: const Duration(
+                                                milliseconds: 100),
+                                            curve: Curves.easeIn,
+                                          );
+                                        },
+                                        icon: const Icon(Icons.send,
+                                            color: Colors.blueGrey)),
+                                    hintText: "Send a message",
+                                    hintStyle:
+                                        const TextStyle(color: Colors.blueGrey),
+                                    focusedBorder: const OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(18),
+                                        )),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(18),
+                                        ),
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade300)),
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(18),
+                                        ),
+                                        borderSide:
+                                            BorderSide(color: Colors.white))),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ));
               }
 
@@ -199,7 +229,11 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
             },
           );
         } else {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator(
+            color: KprimaryColor,
+          )));
         }
       },
     );

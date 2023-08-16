@@ -26,10 +26,13 @@ class RegisterCubit extends Cubit<RegisterStates> {
         int randomNumber = random.nextInt(4);
 
         createUser(
-            name: name!,
-            email: email,
-            uId: value.user!.uid,
-            userBubbleColorId: randomNumber);
+          name: name!,
+          email: email,
+          uId: value.user!.uid,
+          userBubbleColorId: randomNumber,
+          userImage:
+              'https://img.freepik.com/free-photo/young-student-woman-with-backpack-bag-holding-hand-with-thumb-up-gesture-isolated-white-wall_231208-11498.jpg?w=996&t=st=1669296316~exp=1669296916~hmac=783161709f71002b0e0825e73eea54c12d0d9a7157be9658d3b3fe3d05c51215',
+        );
         // CacheHelper.saveData(key: 'uId', value: value.user!.uid);
         // print("user uId is : ${value.user!.uid}");
         emit(RegisterSuccessState());
@@ -52,6 +55,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String email,
     required String uId,
     required int userBubbleColorId,
+    required String userImage,
   }) {
     try {
       emit(CreateUserLoadingState());
@@ -60,6 +64,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
         email: email,
         uId: uId,
         userBubbleColorId: userBubbleColorId,
+        userImage:
+            'https://img.freepik.com/free-photo/young-student-woman-with-backpack-bag-holding-hand-with-thumb-up-gesture-isolated-white-wall_231208-11498.jpg?w=996&t=st=1669296316~exp=1669296916~hmac=783161709f71002b0e0825e73eea54c12d0d9a7157be9658d3b3fe3d05c51215',
       );
       FirebaseFirestore.instance
           .collection('users')

@@ -1,10 +1,8 @@
 import 'package:chat_tharwat/features/login/cubit/login_states.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/cache_helper.dart';
-import '../../register/models/user_model.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitState());
@@ -22,8 +20,11 @@ class LoginCubit extends Cubit<LoginStates> {
       )
           .then((value) {
         CacheHelper.saveData(key: 'uId', value: value.user!.uid);
+        print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
         print("user uId is : ${value.user!.uid}");
-        GetUserData();
+        print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+
+        // GetUserData();
         emit(LoginSuccessState());
       });
     } on FirebaseAuthException catch (ex) {
@@ -36,25 +37,5 @@ class LoginCubit extends Cubit<LoginStates> {
     } on Exception catch (ex) {
       emit(LoginFailureState(errorMessage: ex.toString()));
     }
-  }
-
-  UserModel? model;
-
-  void GetUserData() {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(CacheHelper.getData(key: 'uId'))
-        .get()
-        .then((value) {
-      print(value.data());
-
-      model = UserModel.fromJson(value.data()!);
-      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      emit(GetUserSuccessState(userModel: model));
-      print(model!.name);
-      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    }).catchError((error) {
-      print(error.toString());
-    });
   }
 }

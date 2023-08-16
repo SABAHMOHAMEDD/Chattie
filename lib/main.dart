@@ -12,10 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache_helper.dart';
 import 'core/notification_helper.dart';
+import 'features/all_users/cubit/all_users_cubit.dart';
+import 'features/all_users/pages/all_users_screen.dart';
 import 'features/chat/cubit/chat_cubit.dart';
 import 'features/chat/pages/moga_chat_screen.dart';
 import 'features/chats_grid/pages/chat_grid_screen.dart';
 import 'features/login/cubit/login_cubit.dart';
+import 'features/settings/pages/settings_screen.dart';
 import 'firebase_options.dart';
 
 // @pragma('vm:entry-point')
@@ -34,16 +37,30 @@ void main() async {
   );
 
   await CacheHelper.init();
-  final String? uId = CacheHelper.getData(key: 'uId');
-  print(uId);
+  //CacheHelper.removeData(key: 'uId');
 
-  runApp(const MyApp());
+  final String? uId = CacheHelper.getData(key: 'uId');
+
+  Widget widget;
+  if (uId != null) {
+    widget = ChatGridScreen();
+  } else {
+    widget = LoginScreen();
+  }
+
+  print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+  print(uId);
+  print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+  runApp(MyApp(widget));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom]);
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  Widget startWidget;
+
+  MyApp(this.startWidget);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -67,9 +84,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => LoginCubit()..GetUserData()),
+        BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
-        BlocProvider(create: (context) => ChatCubit()),
+        BlocProvider(create: (context) => ChatCubit()..GetUserData()),
+        BlocProvider(create: (context) => AllUsersCubit()..GetAllUsers()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -80,12 +98,15 @@ class _MyAppState extends State<MyApp> {
           SplashScreen.routeName: (context) => SplashScreen(),
           ChatGridScreen.routeName: (context) => ChatGridScreen(),
           MogaChatScreen.routeName: (context) => MogaChatScreen(),
+          SettingsScreen.routeName: (context) => SettingsScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: KprimaryColor),
           useMaterial3: true,
         ),
-        initialRoute: SplashScreen.routeName,
+        // initialRoute: SplashScreen.routeName,
+        //home: widget.startWidget,
+        home: AllUsersScreen(),
       ),
     );
   }

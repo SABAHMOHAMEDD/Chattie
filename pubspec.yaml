@@ -26,6 +26,7 @@ dependencies:
   flutter_local_notifications: ^15.1.0+1
   shared_preferences: ^2.2.0
   conditional_builder_null_safety: ^0.0.6
+  flutter_secure_storage: ^8.0.0
 
 
 dev_dependencies:
