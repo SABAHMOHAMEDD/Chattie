@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: KprimaryColor,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,12 +20,12 @@ class SettingsScreen extends StatelessWidget {
               icon: Icon(
                 Icons.exit_to_app,
                 size: 45,
-                color: Colors.white.withOpacity(0.9),
+                color: KprimaryColor.withOpacity(0.9),
               ),
             ),
             Text(
               'Sign Out',
-              style: TextStyle(color: Colors.white.withOpacity(.9)),
+              style: TextStyle(color: KprimaryColor.withOpacity(.9)),
             ),
             SizedBox(
               height: 100,

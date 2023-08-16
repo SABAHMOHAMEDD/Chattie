@@ -1,4 +1,3 @@
-import 'package:chat_tharwat/features/chats_grid/pages/chat_grid_screen.dart';
 import 'package:chat_tharwat/features/login/cubit/login_cubit.dart';
 import 'package:chat_tharwat/features/register/pages/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../../core/widgets/show_snack_bar.dart';
+import '../../home/pages/home_screen.dart';
 import '../cubit/login_states.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
           showSnackBar(context, "You Login Successfully");
           Navigator.pushReplacementNamed(
             context,
-            ChatGridScreen.routeName,
+            HomeScreen.routeName,
           );
 
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");

@@ -21,7 +21,9 @@ class LoginCubit extends Cubit<LoginStates> {
           .then((value) {
         CacheHelper.saveData(key: 'uId', value: value.user!.uid);
         print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-        print("user uId is : ${value.user!.uid}");
+        print(CacheHelper.getData(key: 'uId'));
+
+        //  print("user uId is : ${value.user!.uid}");
         print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
 
         // GetUserData();

@@ -12,14 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache_helper.dart';
 import 'core/notification_helper.dart';
-import 'features/all_users/cubit/all_users_cubit.dart';
-import 'features/all_users/pages/all_users_screen.dart';
-import 'features/chat/cubit/chat_cubit.dart';
 import 'features/chat/pages/moga_chat_screen.dart';
-import 'features/chats_grid/pages/chat_grid_screen.dart';
+import 'features/home/cubit/home_cubit.dart';
+import 'features/home/pages/home_screen.dart';
 import 'features/login/cubit/login_cubit.dart';
 import 'features/settings/pages/settings_screen.dart';
 import 'firebase_options.dart';
+import 'group_chat/pages/group_chat_screen.dart';
 
 // @pragma('vm:entry-point')
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -43,7 +42,7 @@ void main() async {
 
   Widget widget;
   if (uId != null) {
-    widget = ChatGridScreen();
+    widget = HomeScreen();
   } else {
     widget = LoginScreen();
   }
@@ -85,9 +84,12 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
+        BlocProvider(
+            create: (context) => HomeCubit()
+              ..GetUserData()
+              ..GetAllUsers()),
         BlocProvider(create: (context) => RegisterCubit()),
-        BlocProvider(create: (context) => ChatCubit()..GetUserData()),
-        BlocProvider(create: (context) => AllUsersCubit()..GetAllUsers()),
+        //  BlocProvider(create: (context) => AllUsersCubit()..GetAllUsers()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -96,17 +98,18 @@ class _MyAppState extends State<MyApp> {
           RegisterScreen.routeName: (context) => RegisterScreen(),
           EmaxChatScreen.routeName: (context) => EmaxChatScreen(),
           SplashScreen.routeName: (context) => SplashScreen(),
-          ChatGridScreen.routeName: (context) => ChatGridScreen(),
+          HomeScreen.routeName: (context) => HomeScreen(),
           MogaChatScreen.routeName: (context) => MogaChatScreen(),
           SettingsScreen.routeName: (context) => SettingsScreen(),
+          GroupChatScreen.routeName: (context) => GroupChatScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: KprimaryColor),
           useMaterial3: true,
         ),
         // initialRoute: SplashScreen.routeName,
-        //home: widget.startWidget,
-        home: AllUsersScreen(),
+        home: widget.startWidget,
+        // home: AllUsersScreen(),
       ),
     );
   }

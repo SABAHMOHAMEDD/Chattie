@@ -1,15 +1,16 @@
 import 'package:chat_tharwat/features/chat/models/messages_model.dart';
+import 'package:chat_tharwat/features/home/cubit/home_cubit.dart';
+import 'package:chat_tharwat/features/home/cubit/home_states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../core/constance/constants.dart';
 import '../../../core/widgets/chat_bubble.dart';
-import '../cubit/chat_cubit.dart';
-import '../cubit/chat_states.dart';
 
 class EmaxChatScreen extends StatefulWidget {
-  static const routeName = "HomeScreen";
+  static const routeName = "EmaxChatScreen";
 
   @override
   State<EmaxChatScreen> createState() => _EmaxChatScreenState();
@@ -35,7 +36,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
 
   @override
   void initState() {
-    ChatCubit.get(context).GetUserData();
+    HomeCubit.get(context).GetUserData();
     super.initState();
   }
 
@@ -44,7 +45,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
     CollectionReference messeges =
         FirebaseFirestore.instance.collection(emaxCollection);
 
-    return BlocConsumer<ChatCubit, ChatStates>(
+    return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is GetUserSuccessState) {
@@ -124,7 +125,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                   print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
                                   return messageslist[index].id ==
-                                          ChatCubit.get(context).model!.uId
+                                      HomeCubit.get(context).model!.uId
                                       ? ChatBubble(
                                           message:
                                               messageslist[index].message ?? "",
@@ -165,14 +166,14 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                           messeges.add({
                                             'message': messagecontroller.text,
                                             'createdAt': DateTime.now(),
-                                            'id': ChatCubit.get(context)
+                                            'id': HomeCubit.get(context)
                                                 .model!
                                                 .uId,
-                                            'userName': ChatCubit.get(context)
+                                            'userName': HomeCubit.get(context)
                                                     .model!
                                                     .name ??
                                                 "",
-                                            'userColor': ChatCubit.get(context)
+                                            'userColor': HomeCubit.get(context)
                                                     .model!
                                                     .userBubbleColorId ??
                                                 0
@@ -221,19 +222,23 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                     ));
               }
 
-              return const Scaffold(
-                  body: Center(
-                      child: CircularProgressIndicator(
-                color: KprimaryColor,
-              )));
+              return Scaffold(
+                body: Center(
+                    child: LoadingAnimationWidget.inkDrop(
+                  color: KprimaryColor,
+                  size: 35,
+                )),
+              );
             },
           );
         } else {
-          return const Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator(
-            color: KprimaryColor,
-          )));
+          return Scaffold(
+            body: Center(
+                child: LoadingAnimationWidget.inkDrop(
+              color: KprimaryColor,
+              size: 35,
+            )),
+          );
         }
       },
     );

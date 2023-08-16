@@ -1,11 +1,12 @@
-import 'package:chat_tharwat/features/chat/cubit/chat_cubit.dart';
+import 'package:chat_tharwat/features/home/cubit/home_states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../core/constance/constants.dart';
 import '../../../core/widgets/chat_bubble.dart';
-import '../cubit/chat_states.dart';
+import '../../home/cubit/home_cubit.dart';
 import '../models/messages_model.dart';
 
 class MogaChatScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ChatScreenState extends State<MogaChatScreen> {
 
   @override
   void initState() {
-    ChatCubit.get(context).GetUserData();
+    HomeCubit.get(context).GetUserData();
     super.initState();
   }
 
@@ -43,7 +44,7 @@ class _ChatScreenState extends State<MogaChatScreen> {
     CollectionReference messeges =
         FirebaseFirestore.instance.collection(MogaCollection);
 
-    return BlocConsumer<ChatCubit, ChatStates>(
+    return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is GetUserSuccessState) {
@@ -117,7 +118,7 @@ class _ChatScreenState extends State<MogaChatScreen> {
                                 shrinkWrap: false,
                                 itemBuilder: (context, index) {
                                   return messageslist[index].id ==
-                                          ChatCubit.get(context).model!.uId
+                                      HomeCubit.get(context).model!.uId
                                       ? ChatBubble(
                                           message:
                                               messageslist[index].message ?? "",
@@ -159,14 +160,14 @@ class _ChatScreenState extends State<MogaChatScreen> {
                                           messeges.add({
                                             'message': messagecontroller.text,
                                             'createdAt': DateTime.now(),
-                                            'id': ChatCubit.get(context)
+                                            'id': HomeCubit.get(context)
                                                 .model!
                                                 .uId,
-                                            'userName': ChatCubit.get(context)
+                                            'userName': HomeCubit.get(context)
                                                     .model!
                                                     .name ??
                                                 "",
-                                            'userColor': ChatCubit.get(context)
+                                            'userColor': HomeCubit.get(context)
                                                 .model!
                                                 .userBubbleColorId
                                           });
@@ -214,19 +215,23 @@ class _ChatScreenState extends State<MogaChatScreen> {
                     ));
               }
 
-              return const Scaffold(
-                  body: Center(
-                      child: CircularProgressIndicator(
-                color: KprimaryColor,
-              )));
+              return Scaffold(
+                body: Center(
+                    child: LoadingAnimationWidget.inkDrop(
+                  color: KprimaryColor,
+                  size: 35,
+                )),
+              );
             },
           );
         } else {
           return Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator(
-            color: KprimaryColor,
-          )));
+            body: Center(
+                child: LoadingAnimationWidget.inkDrop(
+              color: KprimaryColor,
+              size: 35,
+            )),
+          );
         }
       },
     );

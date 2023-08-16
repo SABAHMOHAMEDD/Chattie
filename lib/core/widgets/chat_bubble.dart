@@ -71,15 +71,15 @@ class ChatBubbleFriend extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "~${userName!}",
-                  style: TextStyle(
+                  "~$userName",
+                  style: const TextStyle(
                       color: Colors.blueGrey,
                       fontSize: 12,
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  message!,
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  message,
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ],
             ),
