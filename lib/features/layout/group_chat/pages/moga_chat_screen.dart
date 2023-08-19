@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../../core/constance/constants.dart';
-import '../../../core/widgets/chat_bubble.dart';
-import '../../home/cubit/home_cubit.dart';
-import '../models/messages_model.dart';
+import '../../../../core/constance/constants.dart';
+import '../../../../core/widgets/chat_bubble.dart';
+import '../../../home/cubit/home_cubit.dart';
+import '../models/group_messages_model.dart';
 
 class MogaChatScreen extends StatefulWidget {
   static const routeName = "MogaChatScreen";
@@ -127,7 +127,7 @@ class _ChatScreenState extends State<MogaChatScreen> {
                                                   "",
                                         )
                                       : ChatBubbleFriend(
-                                          message:
+                                    message:
                                               messageslist[index].message ?? "",
                                           userName:
                                               messageslist[index].userName ??
@@ -135,6 +135,7 @@ class _ChatScreenState extends State<MogaChatScreen> {
                                           userBubbleColor: userBubbleColor(
                                               messageslist[index].userColor ??
                                                   0),
+                                          isPrivateChat: false,
                                         );
                                 }),
                           ),

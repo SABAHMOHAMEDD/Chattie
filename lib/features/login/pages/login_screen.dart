@@ -1,3 +1,4 @@
+import 'package:chat_tharwat/features/layout/group_chat/cubit/group_chat_cubit.dart';
 import 'package:chat_tharwat/features/login/cubit/login_cubit.dart';
 import 'package:chat_tharwat/features/register/pages/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,8 @@ class LoginScreen extends StatelessWidget {
             context,
             HomeScreen.routeName,
           );
+          BlocProvider.of<GroupChatCubit>(context).getMogaMessages();
+          BlocProvider.of<GroupChatCubit>(context).getEmaxMessages();
 
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           print(email);
@@ -82,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                             Text(
                               'Login',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                              TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ],
                         ),
@@ -144,7 +147,7 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 ' Register',
                                 style:
-                                    TextStyle(color: Colors.blueGrey.shade100),
+                                TextStyle(color: Colors.blueGrey.shade100),
                               ),
                             )
                           ],

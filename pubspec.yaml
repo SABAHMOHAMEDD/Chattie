@@ -25,9 +25,10 @@ dependencies:
   firebase_messaging: ^14.6.5
   flutter_local_notifications: ^15.1.0+1
   shared_preferences: ^2.2.0
-  conditional_builder_null_safety: ^0.0.6
   flutter_secure_storage: ^8.0.0
   loading_animation_widget: ^1.2.0+4
+  conditional_builder_null_safety: ^0.0.6
+
 
 
 dev_dependencies:

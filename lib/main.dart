@@ -1,5 +1,4 @@
 import 'package:chat_tharwat/core/constance/constants.dart';
-import 'package:chat_tharwat/features/chat/pages/emax_chat_screen.dart';
 import 'package:chat_tharwat/features/login/pages/login_screen.dart';
 import 'package:chat_tharwat/features/register/cubit/register_cubit.dart';
 import 'package:chat_tharwat/features/register/pages/register_screen.dart';
@@ -12,13 +11,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache_helper.dart';
 import 'core/notification_helper.dart';
-import 'features/chat/pages/moga_chat_screen.dart';
 import 'features/home/cubit/home_cubit.dart';
 import 'features/home/pages/home_screen.dart';
+import 'features/layout/group_chat/cubit/group_chat_cubit.dart';
+import 'features/layout/group_chat/pages/emax_chat_screen.dart';
+import 'features/layout/group_chat/pages/grid_group_chat_screen.dart';
+import 'features/layout/group_chat/pages/moga_chat_screen.dart';
+import 'features/layout/my_chats/cubit/private_chats_cubit.dart';
+import 'features/layout/my_chats/pages/private_chat_screen.dart';
+import 'features/layout/settings/pages/settings_screen.dart';
 import 'features/login/cubit/login_cubit.dart';
-import 'features/settings/pages/settings_screen.dart';
 import 'firebase_options.dart';
-import 'group_chat/pages/group_chat_screen.dart';
 
 // @pragma('vm:entry-point')
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -89,7 +92,11 @@ class _MyAppState extends State<MyApp> {
               ..GetUserData()
               ..GetAllUsers()),
         BlocProvider(create: (context) => RegisterCubit()),
-        //  BlocProvider(create: (context) => AllUsersCubit()..GetAllUsers()),
+        BlocProvider(create: (context) => PrivateChatsCubit()),
+        BlocProvider(
+            create: (context) => GroupChatCubit()
+              ..getEmaxMessages()
+              ..getMogaMessages()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -102,6 +109,7 @@ class _MyAppState extends State<MyApp> {
           MogaChatScreen.routeName: (context) => MogaChatScreen(),
           SettingsScreen.routeName: (context) => SettingsScreen(),
           GroupChatScreen.routeName: (context) => GroupChatScreen(),
+          PrivateChatScreen.routeName: (context) => PrivateChatScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: KprimaryColor),

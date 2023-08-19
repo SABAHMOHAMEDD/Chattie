@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/constance/constants.dart';
-import '../../features/chat/pages/emax_chat_screen.dart';
-import '../../features/chat/pages/moga_chat_screen.dart';
+import '../../../../core/constance/constants.dart';
+import '../cubit/group_chat_cubit.dart';
+import 'emax_chat_screen.dart';
+import 'moga_chat_screen.dart';
 
 class GroupChatScreen extends StatelessWidget {
   static const routeName = "GroupChatScreen";
+
+  const GroupChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class GroupChatScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 300,
           ),
           Padding(
@@ -27,6 +31,7 @@ class GroupChatScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+                    //  BlocProvider.of<GroupChatCubit>(context).getEmaxMessages();
                     Navigator.pushNamed(
                       context,
                       EmaxChatScreen.routeName,
@@ -42,12 +47,12 @@ class GroupChatScreen extends StatelessWidget {
                           BoxShadow(
                               color: Colors.white.withOpacity(0.4),
                               blurRadius: 1,
-                              offset: Offset(5, 5))
+                              offset: const Offset(5, 5))
                         ]),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(
+                        const Image(
                           image: AssetImage("assets/images/coding.png"),
                           height: 75,
                           width: 75,
@@ -72,6 +77,8 @@ class GroupChatScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
+                    BlocProvider.of<GroupChatCubit>(context).getMogaMessages();
+
                     Navigator.pushNamed(
                       context,
                       MogaChatScreen.routeName,
@@ -85,7 +92,7 @@ class GroupChatScreen extends StatelessWidget {
                           BoxShadow(
                               color: Colors.white.withOpacity(0.4),
                               blurRadius: 1,
-                              offset: Offset(5, 5))
+                              offset: const Offset(5, 5))
                         ],
                         color: KprimaryColor.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(12)),
@@ -93,7 +100,7 @@ class GroupChatScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(
+                        const Image(
                           image: AssetImage(
                             "assets/images/socialmedia.png",
                           ),
@@ -121,8 +128,8 @@ class GroupChatScreen extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
-          SizedBox(
+          const Spacer(),
+          const SizedBox(
             height: 100,
           ),
         ],

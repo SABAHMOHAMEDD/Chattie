@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constance/constants.dart';
+import '../../../../core/constance/constants.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const routeName = "SettingsScreen";

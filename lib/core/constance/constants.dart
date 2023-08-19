@@ -8,8 +8,11 @@ import '../../features/register/models/user_model.dart';
 import '../cache_helper.dart';
 
 const String KLogo = "assets/images/scholar.png";
+const String usersCollection = "users";
 const String emaxCollection = "emaxmessages";
 const String MogaCollection = "mogaMessages";
+const String privateChatCollection = "chats";
+const String privateMessagesCollection = "messages";
 const Color KprimaryColor = Colors.blueGrey;
 const String kCreatedAt = "createdAt";
 final String? uId = CacheHelper.getData(key: 'uId');

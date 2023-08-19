@@ -1,10 +1,11 @@
+import 'package:chat_tharwat/core/constance/constants.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
-  final String userName;
+  final String? userName;
 
-  ChatBubble({required this.message, required this.userName});
+  ChatBubble({required this.message, this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +44,15 @@ class ChatBubble extends StatelessWidget {
 
 class ChatBubbleFriend extends StatelessWidget {
   final String message;
-  final String userName;
-  final Color userBubbleColor;
+  final String? userName;
+  final bool isPrivateChat;
+  final Color? userBubbleColor;
 
   ChatBubbleFriend(
       {required this.message,
-      required this.userName,
-      required this.userBubbleColor});
+      required this.isPrivateChat,
+      this.userName,
+      this.userBubbleColor});
 
   @override
   Widget build(BuildContext context) {
@@ -70,16 +73,18 @@ class ChatBubbleFriend extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "~$userName",
-                  style: const TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500),
-                ),
+                isPrivateChat
+                    ? SizedBox()
+                    : Text(
+                        "~$userName",
+                        style: const TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
+                      ),
                 Text(
                   message,
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                  style: const TextStyle(color: KprimaryColor, fontSize: 14),
                 ),
               ],
             ),

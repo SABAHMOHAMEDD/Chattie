@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/cache_helper.dart';
-import '../../../group_chat/pages/group_chat_screen.dart';
-import '../../all_users/pages/my_chats_screen.dart';
+import '../../layout/group_chat/pages/grid_group_chat_screen.dart';
+import '../../layout/my_chats/pages/all_chats_screen.dart';
+import '../../layout/settings/pages/settings_screen.dart';
 import '../../register/models/user_model.dart';
-import '../../settings/pages/settings_screen.dart';
 import 'home_states.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
@@ -26,9 +26,11 @@ class HomeCubit extends Cubit<HomeStates> {
     if (index == 0) {
       GetAllUsers();
     }
+    if (index == 1) {
+      GetUserData();
+    }
     currentIndex = index;
     emit(ChangeBottomNavState());
-    GetUserData();
   }
 
   UserModel? model;
@@ -45,7 +47,7 @@ class HomeCubit extends Cubit<HomeStates> {
       model = UserModel.fromJson(value.data()!);
       CacheHelper.saveData(key: 'uId', value: model!.uId);
       print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      print("user uId is : ${model!.uId}");
+      print("user uId is : ${CacheHelper.getData(key: 'uId')}");
       print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
       print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
       emit(GetUserSuccessState(userModel: model));
@@ -64,7 +66,9 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(GetAllUsersLoadingState());
     FirebaseFirestore.instance.collection('users').get().then((value) {
       value.docs.forEach((element) {
-        users.add(UserModel.fromJson(element.data()));
+        if (element.data()['uId'] != model!.uId) {
+          users.add(UserModel.fromJson(element.data()));
+        }
       });
       emit(GetAllUsersSuccessState());
     }).catchError((error) {
