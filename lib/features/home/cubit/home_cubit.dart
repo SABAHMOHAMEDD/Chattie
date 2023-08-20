@@ -24,39 +24,13 @@ class HomeCubit extends Cubit<HomeStates> {
 
   void ChangebottomNavBar(int index) {
     if (index == 0) {
-      GetAllUsers();
+      // GetAllUsers();
     }
     if (index == 1) {
-      GetUserData();
+      //GetUserData();
     }
     currentIndex = index;
     emit(ChangeBottomNavState());
-  }
-
-  UserModel? model;
-
-  void GetUserData() {
-    emit(GetUserLoadingState());
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(CacheHelper.getData(key: 'uId'))
-        .get()
-        .then((value) {
-      print(value.data());
-
-      model = UserModel.fromJson(value.data()!);
-      CacheHelper.saveData(key: 'uId', value: model!.uId);
-      print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      print("user uId is : ${CacheHelper.getData(key: 'uId')}");
-      print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      emit(GetUserSuccessState(userModel: model));
-      print(model!.name);
-      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetUserFailureState(errorMessage: error.toString()));
-    });
   }
 
   List<UserModel> users = [];
@@ -66,7 +40,7 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(GetAllUsersLoadingState());
     FirebaseFirestore.instance.collection('users').get().then((value) {
       value.docs.forEach((element) {
-        if (element.data()['uId'] != model!.uId) {
+        if (element.data()['uId'] != CacheHelper.getData(key: 'uId')) {
           users.add(UserModel.fromJson(element.data()));
         }
       });

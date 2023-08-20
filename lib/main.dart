@@ -87,16 +87,10 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
-        BlocProvider(
-            create: (context) => HomeCubit()
-              ..GetUserData()
-              ..GetAllUsers()),
+        BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => PrivateChatsCubit()),
-        BlocProvider(
-            create: (context) => GroupChatCubit()
-              ..getEmaxMessages()
-              ..getMogaMessages()),
+        BlocProvider(create: (context) => GroupChatCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

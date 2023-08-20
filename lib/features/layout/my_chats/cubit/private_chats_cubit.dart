@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/cache_helper.dart';
 import '../../../../core/constance/constants.dart';
 import '../models/private_message_model.dart';
 import 'private_chats_states.dart';
@@ -25,9 +26,9 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
       // set my chat
       FirebaseFirestore.instance
           .collection(usersCollection)
-          .doc(uId)
+          .doc(CacheHelper.getData(key: 'uId'))
           .collection(privateChatCollection)
-          .doc(receiverId)
+          .doc(CacheHelper.getData(key: 'userId'))
           .collection(privateMessagesCollection)
           .add(privateMessageModel.toJason())
           .then((value) {
@@ -40,9 +41,9 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
 // set receiver chat
       FirebaseFirestore.instance
           .collection(usersCollection)
-          .doc(receiverId)
+          .doc(CacheHelper.getData(key: 'userId'))
           .collection(privateChatCollection)
-          .doc(uId)
+          .doc(CacheHelper.getData(key: 'uId'))
           .collection(privateMessagesCollection)
           .add(privateMessageModel.toJason())
           .then((value) {
@@ -59,6 +60,8 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
   List<PrivateMessageModel> messages = [];
 
   void GetMessages({required receiverId}) {
+    emit(GetMessageLoadingStates());
+
     FirebaseFirestore.instance
         .collection(usersCollection)
         .doc(uId)

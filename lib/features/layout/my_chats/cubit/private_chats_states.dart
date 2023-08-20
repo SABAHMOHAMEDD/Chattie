@@ -6,6 +6,8 @@ class SendMessageSuccessStates extends PrivateChatsStates {}
 
 class SendMessageFailurStates extends PrivateChatsStates {}
 
+class GetMessageLoadingStates extends PrivateChatsStates {}
+
 class GetMessageSuccessStates extends PrivateChatsStates {}
 
 class GetMessageFailurStates extends PrivateChatsStates {}
