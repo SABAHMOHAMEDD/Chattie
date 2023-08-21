@@ -29,10 +29,8 @@ class HomeCubit extends Cubit<HomeStates> {
 
   void ChangebottomNavBar(int index) {
     if (index == 0) {
-      GetUserData();
     }
     if (index == 1) {
-      GetUserData();
     }
     currentIndex = index;
     emit(ChangeBottomNavState());

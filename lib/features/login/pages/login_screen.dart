@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                             Text(
                               'Login',
                               style:
-                              TextStyle(color: Colors.white, fontSize: 18),
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ],
                         ),
@@ -146,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 ' Register',
                                 style:
-                                TextStyle(color: Colors.blueGrey.shade100),
+                                    TextStyle(color: Colors.blueGrey.shade100),
                               ),
                             )
                           ],
