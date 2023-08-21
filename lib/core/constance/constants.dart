@@ -26,6 +26,9 @@ void SignOut(context) async {
   clearCachedData();
   await FirebaseAuth.instance.signOut();
   CacheHelper.removeData(key: 'userId');
+  CacheHelper.removeData(key: 'name');
+  CacheHelper.removeData(key: 'email');
+  CacheHelper.removeData(key: 'userImage');
   CacheHelper.removeData(key: 'uId').then((value) {
     if (value) {
       Navigator.pushReplacementNamed(context, SplashScreen.routeName);

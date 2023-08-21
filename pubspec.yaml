@@ -28,6 +28,9 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   loading_animation_widget: ^1.2.0+4
   conditional_builder_null_safety: ^0.0.6
+  flutter_staggered_grid_view:
+  image_picker:
+  firebase_storage:
 
 
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/icon_broken.dart';
+import '../../layout/profile/pages/profile_screen.dart';
 import '../cubit/home_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,6 +24,20 @@ class HomeScreen extends StatelessWidget {
               cubit.title[cubit.currentIndex],
               style: TextStyle(color: KprimaryColor),
             ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, ProfileScreen.routeName);
+                  },
+                  icon: const Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Icon(
+                      IconBroken.Profile,
+                      color: KprimaryColor,
+                      size: 28,
+                    ),
+                  ))
+            ],
           ),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: KprimaryColor,
@@ -30,13 +45,11 @@ class HomeScreen extends StatelessWidget {
             onTap: (index) {
               cubit.ChangebottomNavBar(index);
             },
-            items: [
+            items: const [
               BottomNavigationBarItem(
                   icon: Icon(IconBroken.Chat), label: 'Chats'),
               BottomNavigationBarItem(
                   icon: Icon(IconBroken.User1), label: 'Groups'),
-              BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Setting), label: 'Settings'),
             ],
           ),
           backgroundColor: KprimaryColor,

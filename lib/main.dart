@@ -16,10 +16,9 @@ import 'features/home/pages/home_screen.dart';
 import 'features/layout/group_chat/cubit/group_chat_cubit.dart';
 import 'features/layout/group_chat/pages/emax_chat_screen.dart';
 import 'features/layout/group_chat/pages/grid_group_chat_screen.dart';
-import 'features/layout/group_chat/pages/moga_chat_screen.dart';
 import 'features/layout/my_chats/cubit/private_chats_cubit.dart';
 import 'features/layout/my_chats/pages/private_chat_screen.dart';
-import 'features/layout/settings/pages/settings_screen.dart';
+import 'features/layout/profile/pages/profile_screen.dart';
 import 'features/login/cubit/login_cubit.dart';
 import 'firebase_options.dart';
 
@@ -87,7 +86,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
-        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => HomeCubit()..GetUserData()),
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => PrivateChatsCubit()),
         BlocProvider(create: (context) => GroupChatCubit()),
@@ -100,8 +99,7 @@ class _MyAppState extends State<MyApp> {
           EmaxChatScreen.routeName: (context) => EmaxChatScreen(),
           SplashScreen.routeName: (context) => SplashScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),
-          MogaChatScreen.routeName: (context) => MogaChatScreen(),
-          SettingsScreen.routeName: (context) => SettingsScreen(),
+          ProfileScreen.routeName: (context) => ProfileScreen(),
           GroupChatScreen.routeName: (context) => GroupChatScreen(),
           PrivateChatScreen.routeName: (context) => PrivateChatScreen(),
         },

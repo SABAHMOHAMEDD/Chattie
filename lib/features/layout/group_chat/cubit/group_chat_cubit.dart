@@ -10,48 +10,14 @@ class GroupChatCubit extends Cubit<GroupChatStates> {
 
   static GroupChatCubit get(context) => BlocProvider.of(context);
 
-  CollectionReference mogaMesseges =
-      FirebaseFirestore.instance.collection(MogaCollection);
-
-  void sendMogaMessages(
-      String? message, String? uId, String? userName, int? userColor) {
-    try {
-      mogaMesseges.add({
-        'message': message,
-        'createdAt': DateTime.now(),
-        'id': uId,
-        'userName': userName,
-        'userColor': userColor
-      });
-    } on Exception catch (ex) {
-      print(ex.toString());
-    }
-  }
-
-  List<MessagesModel> mogaMessegesList = [];
-
-  void getMogaMessages() {
-    try {
-      FirebaseFirestore.instance
-          .collection(MogaCollection)
-          .orderBy(kCreatedAt)
-          .snapshots()
-          .listen((event) {
-        event.docs.forEach((element) {
-          mogaMessegesList.add(MessagesModel.fromJason(element.data()));
-          emit(MogaGroupChatSuccessState(MessegesList: mogaMessegesList));
-        });
-      });
-    } on Exception catch (ex) {
-      print(ex.toString());
-    }
-  }
-
-  CollectionReference emaxMesseges =
-      FirebaseFirestore.instance.collection(emaxCollection);
-
-  void sendEmaxMessages(
-      String? message, String? uId, String? userName, int? userColor) {
+  void sendGroupMessages(
+      {required String CollectionName,
+      String? message,
+      String? uId,
+      String? userName,
+      int? userColor}) {
+    CollectionReference emaxMesseges =
+        FirebaseFirestore.instance.collection(CollectionName);
     try {
       emaxMesseges.add({
         'message': message,
@@ -65,18 +31,20 @@ class GroupChatCubit extends Cubit<GroupChatStates> {
     }
   }
 
-  List<MessagesModel> emaxMessegesList = [];
+  List<MessagesModel> groupMessegesList = [];
 
-  void getEmaxMessages() {
-    emaxMessegesList = [];
+  void getGroupMessages(String CollectionName) {
+    CollectionReference emaxMesseges =
+        FirebaseFirestore.instance.collection(CollectionName);
+    groupMessegesList = [];
     try {
       emaxMesseges.orderBy(kCreatedAt).snapshots().listen((event) {
-        emaxMessegesList = [];
+        groupMessegesList = [];
 
         event.docs.forEach((element) {
-          emaxMessegesList.add(MessagesModel.fromJason(element.data()));
+          groupMessegesList.add(MessagesModel.fromJason(element.data()));
 
-          emit(EmaxGroupChatSuccessState(MessegesList: emaxMessegesList));
+          emit(EmaxGroupChatSuccessState(MessegesList: groupMessegesList));
           print(r'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
         });
       });

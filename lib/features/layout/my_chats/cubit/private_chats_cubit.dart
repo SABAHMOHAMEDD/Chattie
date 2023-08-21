@@ -32,7 +32,7 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
           .collection(privateMessagesCollection)
           .add(privateMessageModel.toJason())
           .then((value) {
-        emit(SendMessageSuccessStates());
+        //emit(SendMessageSuccessStates());
       }).catchError((error) {
         print(error.toString());
         emit(SendMessageFailurStates());
@@ -47,7 +47,7 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
           .collection(privateMessagesCollection)
           .add(privateMessageModel.toJason())
           .then((value) {
-        emit(SendMessageSuccessStates());
+        //emit(SendMessageSuccessStates());
       }).catchError((error) {
         print(error.toString());
         emit(SendMessageFailurStates());

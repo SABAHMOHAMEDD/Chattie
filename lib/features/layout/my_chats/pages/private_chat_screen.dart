@@ -20,9 +20,6 @@ class PrivateChatScreen extends StatelessWidget {
 
     return Builder(
       builder: (context) {
-        PrivateChatsCubit.get(context)
-            .GetMessages(receiverId: CacheHelper.getData(key: 'userId'));
-
         return Scaffold(
             backgroundColor: KprimaryColor,
             appBar: AppBar(
@@ -59,34 +56,45 @@ class PrivateChatScreen extends StatelessWidget {
                       topRight: Radius.circular(45))),
               child: Column(
                 children: [
-                  Expanded(
-                      child:
-                          BlocConsumer<PrivateChatsCubit, PrivateChatsStates>(
-                    listener: (context, stats) {},
-                    builder: (context, stats) {
-                      return ListView.builder(
-                          controller: scrollController,
-                          itemCount:
-                              PrivateChatsCubit.get(context).messages.length,
-                          shrinkWrap: false,
-                          itemBuilder: (context, index) {
-                            var messages =
-                                PrivateChatsCubit.get(context).messages;
-                            print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-                            print(uId);
-                            print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                  Expanded(child: Builder(
+                    builder: (context) {
+                      PrivateChatsCubit.get(context).GetMessages(
+                          receiverId: CacheHelper.getData(key: 'userId'));
+                      return BlocConsumer<PrivateChatsCubit,
+                          PrivateChatsStates>(
+                        listener: (context, stats) {},
+                        builder: (context, stats) {
+                          if (stats is GetMessageSuccessStates) {
+                            return ListView.builder(
+                                controller: scrollController,
+                                itemCount: PrivateChatsCubit.get(context)
+                                    .messages
+                                    .length,
+                                shrinkWrap: false,
+                                itemBuilder: (context, index) {
+                                  var messages =
+                                      PrivateChatsCubit.get(context).messages;
+                                  print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                                  print(uId);
+                                  print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
-                            return CacheHelper.getData(key: 'uId') ==
-                                    messages[index].senderId
-                                ? ChatBubble(
-                                    message: messages[index].message ?? "",
-                                  )
-                                : ChatBubbleFriend(
-                                    message: messages[index].message ?? "",
-                                    userBubbleColor: Colors.grey.shade200,
-                                    isPrivateChat: true,
-                                  );
-                          });
+                                  return CacheHelper.getData(key: 'uId') ==
+                                          messages[index].senderId
+                                      ? ChatBubble(
+                                          message:
+                                              messages[index].message ?? "",
+                                        )
+                                      : ChatBubbleFriend(
+                                          message:
+                                              messages[index].message ?? "",
+                                          userBubbleColor: Colors.grey.shade200,
+                                          isPrivateChat: true,
+                                        );
+                                });
+                          }
+                          return SizedBox();
+                        },
+                      );
                     },
                   )),
                   Container(

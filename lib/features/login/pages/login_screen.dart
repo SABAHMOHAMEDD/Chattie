@@ -1,3 +1,4 @@
+import 'package:chat_tharwat/features/home/cubit/home_cubit.dart';
 import 'package:chat_tharwat/features/login/cubit/login_cubit.dart';
 import 'package:chat_tharwat/features/register/pages/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class LoginScreen extends StatelessWidget {
             context,
             HomeScreen.routeName,
           );
+          HomeCubit.get(context).GetUserData();
 
           print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           print(email);
@@ -50,7 +52,7 @@ class LoginScreen extends StatelessWidget {
         return Scaffold(
             backgroundColor: Colors.blueGrey,
             body: ModalProgressHUD(
-              progressIndicator: CircularProgressIndicator(
+              progressIndicator: const CircularProgressIndicator(
                 color: Colors.white,
               ),
               inAsyncCall: isLoading,
@@ -82,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                             Text(
                               'Login',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                              TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ],
                         ),
@@ -144,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 ' Register',
                                 style:
-                                    TextStyle(color: Colors.blueGrey.shade100),
+                                TextStyle(color: Colors.blueGrey.shade100),
                               ),
                             )
                           ],
