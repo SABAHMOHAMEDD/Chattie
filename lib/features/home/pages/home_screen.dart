@@ -16,31 +16,33 @@ class HomeScreen extends StatelessWidget {
       listener: (context, states) {},
       builder: (context, states) {
         var cubit = HomeCubit.get(context);
+        HomeCubit.get(context).GetUserData();
 
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
             title: Text(
               cubit.title[cubit.currentIndex],
-              style: TextStyle(color: KprimaryColor),
+              style: TextStyle(color: KPrimaryColor),
             ),
             actions: [
               IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, ProfileScreen.routeName);
+                    Navigator.pushNamed(context, ProfileScreen.routeName,
+                        arguments: HomeCubit.get(context).model);
                   },
                   icon: const Padding(
                     padding: EdgeInsets.only(right: 8),
                     child: Icon(
                       IconBroken.Profile,
-                      color: KprimaryColor,
+                      color: KPrimaryColor,
                       size: 28,
                     ),
                   ))
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: KprimaryColor,
+            selectedItemColor: KPrimaryColor,
             currentIndex: cubit.currentIndex,
             onTap: (index) {
               cubit.ChangebottomNavBar(index);
@@ -52,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   icon: Icon(IconBroken.User1), label: 'Groups'),
             ],
           ),
-          backgroundColor: KprimaryColor,
+          backgroundColor: KPrimaryColor,
           body: cubit.Screens[cubit.currentIndex],
         );
       },

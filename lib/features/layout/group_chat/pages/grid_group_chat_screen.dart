@@ -37,7 +37,7 @@ class GroupChatScreen extends StatelessWidget {
                       height: 170,
                       width: 170,
                       decoration: BoxDecoration(
-                          color: KprimaryColor.withOpacity(0.9),
+                          color: KPrimaryColor.withOpacity(0.9),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(

@@ -60,26 +60,30 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
   List<PrivateMessageModel> messages = [];
 
   void GetMessages({required receiverId}) {
-    emit(GetMessageLoadingStates());
+    messages = [];
 
-    FirebaseFirestore.instance
-        .collection(usersCollection)
-        .doc(uId)
-        .collection(privateChatCollection)
-        .doc(receiverId)
-        .collection(privateMessagesCollection)
-        .orderBy('dateTime')
-        .snapshots()
-        .listen((event) {
-      messages = [];
+    try {
+      FirebaseFirestore.instance
+          .collection(usersCollection)
+          .doc(uId)
+          .collection(privateChatCollection)
+          .doc(receiverId)
+          .collection(privateMessagesCollection)
+          .orderBy('dateTime')
+          .snapshots()
+          .listen((event) {
+        messages = [];
 
-      event.docs.forEach((element) {
-        messages.add(PrivateMessageModel.fromJason(element.data()));
-        print(
-            "########################### Private Messages Here #############################");
-        print(messages[0]);
-        emit(GetMessageSuccessStates());
+        event.docs.forEach((element) {
+          messages.add(PrivateMessageModel.fromJason(element.data()));
+          print(
+              "########################### Private Messages Here #############################");
+          print(messages[0]);
+          emit(GetMessageSuccessStates(MessegesList: messages));
+        });
       });
-    });
+    } on Exception catch (ex) {
+      print(ex.toString());
+    }
   }
 }

@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splashIconSize: 200,
-      backgroundColor: KprimaryColor,
+      backgroundColor: KPrimaryColor,
       splash: Column(
         children: [
           Image(image: AssetImage(KLogo)),

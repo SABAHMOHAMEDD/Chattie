@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
           PrivateChatScreen.routeName: (context) => PrivateChatScreen(),
         },
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: KprimaryColor),
+          colorScheme: ColorScheme.fromSeed(seedColor: KPrimaryColor),
           useMaterial3: true,
         ),
         // initialRoute: SplashScreen.routeName,

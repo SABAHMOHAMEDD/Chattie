@@ -84,7 +84,7 @@ class ChatBubbleFriend extends StatelessWidget {
                       ),
                 Text(
                   message,
-                  style: const TextStyle(color: KprimaryColor, fontSize: 14),
+                  style: const TextStyle(color: KPrimaryColor, fontSize: 14),
                 ),
               ],
             ),

@@ -9,11 +9,11 @@ import '../cache_helper.dart';
 
 const String KLogo = "assets/images/scholar.png";
 const String usersCollection = "users";
-const String emaxCollection = "emaxmessages";
-const String MogaCollection = "mogaMessages";
+
 const String privateChatCollection = "chats";
 const String privateMessagesCollection = "messages";
-const Color KprimaryColor = Colors.blueGrey;
+const Color KPrimaryColor = Color(0xFF749BC2);
+const Color KSecondryColor = Color(0xFFFAF1E4);
 const String kCreatedAt = "createdAt";
 final String? uId = CacheHelper.getData(key: 'uId');
 

@@ -8,10 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constance/constants.dart';
 import '../../../../core/widgets/chat_bubble.dart';
 
-class PrivateChatScreen extends StatelessWidget {
+class PrivateChatScreen extends StatefulWidget {
   static const routeName = "PrivateChatScreen";
 
+  @override
+  State<PrivateChatScreen> createState() => _PrivateChatScreenState();
+}
+
+class _PrivateChatScreenState extends State<PrivateChatScreen> {
   final TextEditingController messageController = TextEditingController();
+
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -20,8 +26,9 @@ class PrivateChatScreen extends StatelessWidget {
 
     return Builder(
       builder: (context) {
+        PrivateChatsCubit.get(context).GetMessages(receiverId: userModel.uId);
         return Scaffold(
-            backgroundColor: KprimaryColor,
+            backgroundColor: KSecondryColor,
             appBar: AppBar(
               toolbarHeight: 100,
               leading: Padding(
@@ -34,7 +41,7 @@ class PrivateChatScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back_ios),
                 ),
               ),
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: KSecondryColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Row(
@@ -58,41 +65,34 @@ class PrivateChatScreen extends StatelessWidget {
                 children: [
                   Expanded(child: Builder(
                     builder: (context) {
-                      PrivateChatsCubit.get(context).GetMessages(
-                          receiverId: CacheHelper.getData(key: 'userId'));
                       return BlocConsumer<PrivateChatsCubit,
                           PrivateChatsStates>(
                         listener: (context, stats) {},
                         builder: (context, stats) {
-                          if (stats is GetMessageSuccessStates) {
-                            return ListView.builder(
-                                controller: scrollController,
-                                itemCount: PrivateChatsCubit.get(context)
-                                    .messages
-                                    .length,
-                                shrinkWrap: false,
-                                itemBuilder: (context, index) {
-                                  var messages =
-                                      PrivateChatsCubit.get(context).messages;
-                                  print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-                                  print(uId);
-                                  print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                          var messages =
+                              PrivateChatsCubit.get(context).messages;
+                          return ListView.builder(
+                              controller: scrollController,
+                              itemCount: PrivateChatsCubit.get(context)
+                                  .messages
+                                  .length,
+                              shrinkWrap: false,
+                              itemBuilder: (context, index) {
+                                print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                                print(uId);
+                                print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
-                                  return CacheHelper.getData(key: 'uId') ==
-                                          messages[index].senderId
-                                      ? ChatBubble(
-                                          message:
-                                              messages[index].message ?? "",
-                                        )
-                                      : ChatBubbleFriend(
-                                          message:
-                                              messages[index].message ?? "",
-                                          userBubbleColor: Colors.grey.shade200,
-                                          isPrivateChat: true,
-                                        );
-                                });
-                          }
-                          return SizedBox();
+                                return CacheHelper.getData(key: 'uId') ==
+                                        messages[index].senderId
+                                    ? ChatBubble(
+                                        message: messages[index].message ?? "",
+                                      )
+                                    : ChatBubbleFriend(
+                                        message: messages[index].message ?? "",
+                                        userBubbleColor: Colors.grey.shade200,
+                                        isPrivateChat: true,
+                                      );
+                              });
                         },
                       );
                     },

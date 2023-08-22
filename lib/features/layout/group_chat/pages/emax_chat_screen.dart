@@ -28,20 +28,20 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
         GroupChatCubit.get(context).getGroupMessages(collectionName);
 
         return Scaffold(
-            backgroundColor: KprimaryColor,
+            backgroundColor: KSecondryColor,
             appBar: AppBar(
               toolbarHeight: 100,
               leading: Padding(
                 padding: const EdgeInsets.only(left: 30),
                 child: IconButton(
-                  color: Colors.white,
+                  color: KPrimaryColor,
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.arrow_back_ios),
                 ),
               ),
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: KSecondryColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Row(
@@ -49,7 +49,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                 children: [
                   Text(
                     collectionName,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: KPrimaryColor),
                   ),
                 ],
               ),
@@ -80,20 +80,20 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                               return messageslist[index].id ==
                                       CacheHelper.getData(key: 'uId')
                                   ? ChatBubble(
-                                message:
-                                messageslist[index].message ?? "",
-                                userName:
-                                messageslist[index].userName ?? "",
-                              )
+                                      message:
+                                          messageslist[index].message ?? "",
+                                      userName:
+                                          messageslist[index].userName ?? "",
+                                    )
                                   : ChatBubbleFriend(
-                                message:
-                                messageslist[index].message ?? "",
-                                userName:
-                                messageslist[index].userName ?? "",
-                                userBubbleColor: userBubbleColor(
-                                    messageslist[index].userColor),
-                                isPrivateChat: false,
-                              );
+                                      message:
+                                          messageslist[index].message ?? "",
+                                      userName:
+                                          messageslist[index].userName ?? "",
+                                      userBubbleColor: userBubbleColor(
+                                          messageslist[index].userColor),
+                                      isPrivateChat: false,
+                                    );
                             });
                       },
                     ),
@@ -149,7 +149,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                   Radius.circular(18),
                                 ),
                                 borderSide:
-                                BorderSide(color: Colors.grey.shade300)),
+                                    BorderSide(color: Colors.grey.shade300)),
                             border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/cache_helper.dart';
@@ -28,10 +29,8 @@ class HomeCubit extends Cubit<HomeStates> {
   ];
 
   void ChangebottomNavBar(int index) {
-    if (index == 0) {
-    }
-    if (index == 1) {
-    }
+    if (index == 0) {}
+    if (index == 1) {}
     currentIndex = index;
     emit(ChangeBottomNavState());
     GetUserData();
@@ -92,6 +91,11 @@ class HomeCubit extends Cubit<HomeStates> {
         .putFile(profileimage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
+        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        CacheHelper.saveData(key: 'imagePath', value: profileimage!.path);
+        print(profileimage!.path);
+        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
         UpdateUser(image: value);
 
         emit(ProfileUpLoadImagePickedByGallerySuccessState());
@@ -137,7 +141,7 @@ class HomeCubit extends Cubit<HomeStates> {
   UserModel? model;
 
   void GetUserData() {
-    emit(GetUserLoadingState());
+    // emit(GetUserLoadingState());
     FirebaseFirestore.instance
         .collection('users')
         .doc(CacheHelper.getData(key: 'uId'))
@@ -154,12 +158,37 @@ class HomeCubit extends Cubit<HomeStates> {
       print("user uId is : ${CacheHelper.getData(key: 'uId')}");
       print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
       print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      emit(GetUserSuccessState(userModel: model));
+      // emit(GetUserSuccessState(userModel: model));
       print(model!.name);
       print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     }).catchError((error) {
       print(error.toString());
-      emit(GetUserFailureState(errorMessage: error.toString()));
+      // emit(GetUserFailureState(errorMessage: error.toString()));
     });
+  }
+
+  void clearProfileImageCache() async {
+    if (profileimage != null) {
+      // Get the file path of the profile image
+      final filePath = profileimage!.path;
+      final file = File(filePath);
+      // Delete the cached file if it exists
+      if (file.existsSync()) {
+        print(
+            'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
+        print(filePath);
+        print(
+            'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
+
+        await DefaultCacheManager().removeFile(filePath);
+        print(
+            '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        print(filePath);
+
+        print('Cached profile image deleted');
+        print(
+            '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+      }
+    }
   }
 }
