@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../core/constance/constants.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../../core/widgets/show_snack_bar.dart';
@@ -43,7 +44,7 @@ class RegisterScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = RegisterCubit.get(context);
         return Scaffold(
-            backgroundColor: Colors.blueGrey,
+            backgroundColor: KPrimaryColor,
             body: ModalProgressHUD(
               progressIndicator: CircularProgressIndicator(
                 color: Colors.white,
@@ -59,7 +60,11 @@ class RegisterScreen extends StatelessWidget {
                         SizedBox(
                           height: screenSize.height / 9,
                         ),
-                        Image(image: AssetImage("assets/images/scholar.png")),
+                        Image(
+                          image: AssetImage(KLogo),
+                          height: 100,
+                          width: 100,
+                        ),
                         const Text(
                           " AlHarethi Chat",
                           style: TextStyle(
@@ -140,7 +145,7 @@ class RegisterScreen extends StatelessWidget {
                             } else {}
                           },
                           buttonText: 'Register',
-                          textColor: Colors.blueGrey,
+                          textColor: KPrimaryColor,
                         ),
                         const SizedBox(
                           height: 10,
@@ -156,8 +161,7 @@ class RegisterScreen extends StatelessWidget {
                               },
                               child: Text(
                                 ' Login',
-                                style:
-                                    TextStyle(color: Colors.blueGrey.shade100),
+                                style: TextStyle(color: KSecondryColor),
                               ),
                             )
                           ],

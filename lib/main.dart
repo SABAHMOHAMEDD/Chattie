@@ -46,7 +46,7 @@ void main() async {
   if (uId != null) {
     widget = HomeScreen();
   } else {
-    widget = LoginScreen();
+    widget = SplashScreen();
   }
 
   print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -104,6 +104,7 @@ class _MyAppState extends State<MyApp> {
           PrivateChatScreen.routeName: (context) => PrivateChatScreen(),
         },
         theme: ThemeData(
+          scaffoldBackgroundColor: KScaffoldColor,
           colorScheme: ColorScheme.fromSeed(seedColor: KPrimaryColor),
           useMaterial3: true,
         ),

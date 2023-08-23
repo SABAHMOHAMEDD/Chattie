@@ -7,13 +7,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../features/register/models/user_model.dart';
 import '../cache_helper.dart';
 
-const String KLogo = "assets/images/scholar.png";
+const String KLogo = "assets/images/lovemessage.png";
 const String usersCollection = "users";
 
 const String privateChatCollection = "chats";
 const String privateMessagesCollection = "messages";
-const Color KPrimaryColor = Color(0xFF749BC2);
-const Color KSecondryColor = Color(0xFFFAF1E4);
+const Color KPrimaryColor = Color(0xFFDBA39A);
+const Color KSecondryColor = Color(0xFFF5EBE0);
+const Color KAppBarColor = Color(0xFFF5EBE0);
+
+const Color KScaffoldColor = Colors.white;
 const String kCreatedAt = "createdAt";
 final String? uId = CacheHelper.getData(key: 'uId');
 

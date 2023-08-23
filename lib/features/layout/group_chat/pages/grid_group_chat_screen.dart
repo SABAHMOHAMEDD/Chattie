@@ -10,6 +10,12 @@ class GroupChatScreen extends StatelessWidget {
   static const routeName = "GroupChatScreen";
 
   List<String> CollectionName = ['Emax', 'Mojah', 'Flayerhost', 'NDS'];
+  List<String> imagePath = [
+    'assets/images/chatting.png',
+    'assets/images/hiring.png',
+    'assets/images/chattingg.png',
+    'assets/images/socialmedia.png'
+  ];
   List<String> GridTitle = ['Emax', 'Mojah', 'Flayerhost', 'NDS'];
 
   @override
@@ -20,8 +26,8 @@ class GroupChatScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 150),
           child: MasonryGridView.builder(
             itemCount: 4,
-            mainAxisSpacing: 2,
-            crossAxisSpacing: 2,
+            mainAxisSpacing: 7,
+            crossAxisSpacing: 7,
             itemBuilder: (context, index) {
               return Padding(
                   padding:
@@ -37,21 +43,21 @@ class GroupChatScreen extends StatelessWidget {
                       height: 170,
                       width: 170,
                       decoration: BoxDecoration(
-                          color: KPrimaryColor.withOpacity(0.9),
+                          color: KPrimaryColor,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.white.withOpacity(0.4),
-                                blurRadius: 1,
-                                offset: const Offset(5, 5))
+                                color: KPrimaryColor.withOpacity(0.4),
+                                blurRadius: 2,
+                                offset: const Offset(5, 10))
                           ]),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Image(
-                            image: AssetImage("assets/images/coding.png"),
-                            height: 75,
-                            width: 75,
+                          Image(
+                            image: AssetImage(imagePath[index]),
+                            height: 85,
+                            width: 85,
                             fit: BoxFit.contain,
                           ),
                           const SizedBox(

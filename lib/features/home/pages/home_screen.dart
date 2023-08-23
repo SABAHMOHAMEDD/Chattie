@@ -20,6 +20,8 @@ class HomeScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: KAppBarColor,
             centerTitle: true,
             title: Text(
               cubit.title[cubit.currentIndex],
@@ -36,13 +38,14 @@ class HomeScreen extends StatelessWidget {
                     child: Icon(
                       IconBroken.Profile,
                       color: KPrimaryColor,
-                      size: 28,
+                      size: 25,
                     ),
                   ))
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: KPrimaryColor,
+            backgroundColor: KAppBarColor,
             currentIndex: cubit.currentIndex,
             onTap: (index) {
               cubit.ChangebottomNavBar(index);

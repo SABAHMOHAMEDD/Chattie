@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../core/constance/constants.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../../core/widgets/show_snack_bar.dart';
@@ -50,7 +51,7 @@ class LoginScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: Colors.blueGrey,
+            backgroundColor: KPrimaryColor,
             body: ModalProgressHUD(
               progressIndicator: const CircularProgressIndicator(
                 color: Colors.white,
@@ -67,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                           height: screenSize.height / 9,
                         ),
                         const Image(
-                            image: AssetImage("assets/images/scholar.png")),
+                            height: 100, width: 100, image: AssetImage(KLogo)),
                         const Text(
                           "AlHarethi Chat",
                           style: TextStyle(
@@ -122,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         CustomButton(
                           buttonText: 'Login',
-                          textColor: Colors.blueGrey,
+                          textColor: KPrimaryColor,
                           onTap: () async {
                             if (formKey.currentState!.validate()) {
                               BlocProvider.of<LoginCubit>(context)
@@ -145,8 +146,7 @@ class LoginScreen extends StatelessWidget {
                               },
                               child: Text(
                                 ' Register',
-                                style:
-                                    TextStyle(color: Colors.blueGrey.shade100),
+                                style: TextStyle(color: KSecondryColor),
                               ),
                             )
                           ],

@@ -80,13 +80,9 @@ class MyChatsScreen extends StatelessWidget {
                                               .name ??
                                           "",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: Colors.black.withOpacity(0.8)),
+                                        fontSize: 16,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 3,
                                   ),
                                 ],
                               ),
@@ -100,8 +96,8 @@ class MyChatsScreen extends StatelessWidget {
                 separatorBuilder: (BuildContext context, int index) {
                   return Container(
                     decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: Colors.grey.shade200)),
+                        border: Border.all(
+                            width: 1, color: KSecondryColor.withOpacity(0.5))),
                   );
                 },
               ));

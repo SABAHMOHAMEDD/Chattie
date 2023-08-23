@@ -151,6 +151,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
       model = UserModel.fromJson(value.data()!);
       CacheHelper.saveData(key: 'uId', value: model!.uId);
+      CacheHelper.saveData(key: 'userColor', value: model!.userBubbleColorId);
       CacheHelper.saveData(key: 'email', value: model!.email);
       CacheHelper.saveData(key: 'name', value: model!.name);
       CacheHelper.saveData(key: 'userImage', value: model!.userImage);

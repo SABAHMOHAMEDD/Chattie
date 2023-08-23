@@ -10,11 +10,15 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      splashIconSize: 200,
+      splashIconSize: 150,
       backgroundColor: KPrimaryColor,
       splash: Column(
         children: [
-          Image(image: AssetImage(KLogo)),
+          Image(
+            image: AssetImage(KLogo),
+            height: 100,
+            width: 100,
+          ),
           const Text(
             "AlHarethi Chat",
             style: TextStyle(

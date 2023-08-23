@@ -30,6 +30,8 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
         return Scaffold(
             backgroundColor: KSecondryColor,
             appBar: AppBar(
+              scrolledUnderElevation: 0,
+              elevation: 0,
               toolbarHeight: 100,
               leading: Padding(
                 padding: const EdgeInsets.only(left: 30),
@@ -44,14 +46,9 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
               backgroundColor: KSecondryColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    collectionName,
-                    style: TextStyle(color: KPrimaryColor),
-                  ),
-                ],
+              title: Text(
+                collectionName,
+                style: TextStyle(color: KPrimaryColor),
               ),
             ),
             body: Container(
@@ -112,8 +109,8 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                         //   maxLines: null,
                         textInputAction: TextInputAction.newline,
                         keyboardType: TextInputType.multiline,
-                        cursorColor: Colors.blueGrey,
-                        style: const TextStyle(color: Colors.blueGrey),
+                        cursorColor: KPrimaryColor,
+                        style: const TextStyle(color: KPrimaryColor),
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () {
@@ -122,7 +119,8 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                     CollectionName: collectionName,
                                     message: messagecontroller.text,
                                     uId: CacheHelper.getData(key: 'uId'),
-                                    userColor: 0,
+                                    userColor:
+                                        CacheHelper.getData(key: 'userColor'),
                                   );
 
                                   messagecontroller.clear();
@@ -136,11 +134,11 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                   );
                                 },
                                 icon: const Icon(Icons.send,
-                                    color: Colors.blueGrey)),
+                                    color: KPrimaryColor)),
                             hintText: "Send a message",
-                            hintStyle: const TextStyle(color: Colors.blueGrey),
+                            hintStyle: const TextStyle(color: KPrimaryColor),
                             focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
+                                borderSide: BorderSide(color: KSecondryColor),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 )),
@@ -148,8 +146,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
                                 ),
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade300)),
+                                borderSide: BorderSide(color: KSecondryColor)),
                             border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
@@ -175,8 +172,32 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
         return Colors.green.shade200;
       case 3:
         return Colors.pink.shade200;
+      case 4:
+        return Colors.red.shade200;
+      case 5:
+        return Colors.pinkAccent.shade100;
+      case 6:
+        return Colors.deepOrangeAccent.shade200;
+      case 7:
+        return Colors.blueAccent.shade100;
+      case 8:
+        return Colors.teal.shade200;
+      case 9:
+        return Colors.lightGreen.shade300;
+      case 10:
+        return Colors.brown.shade200;
+      case 11:
+        return Colors.cyan.shade200;
+      case 12:
+        return Colors.deepPurple.shade200;
+      case 13:
+        return Colors.green.shade200;
+      case 14:
+        return Colors.indigo.shade200;
+      case 15:
+        return Colors.teal.shade300;
       default:
-        return Colors.blue.shade100;
+        return KPrimaryColor;
     }
   }
 }

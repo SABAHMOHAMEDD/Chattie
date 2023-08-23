@@ -13,7 +13,7 @@ class ChatBubble extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.blueGrey.shade400,
+            color: KPrimaryColor,
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(14),
                 bottomLeft: Radius.circular(14),
@@ -60,7 +60,7 @@ class ChatBubbleFriend extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       child: Container(
         decoration: BoxDecoration(
-            color: userBubbleColor,
+            color: KSecondryColor,
             borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(14),
                 bottomRight: Radius.circular(14),
@@ -76,15 +76,15 @@ class ChatBubbleFriend extends StatelessWidget {
                 isPrivateChat
                     ? SizedBox()
                     : Text(
-                        "~$userName",
-                        style: const TextStyle(
-                            color: Colors.blueGrey,
+                        "$userName",
+                        style: TextStyle(
+                            color: userBubbleColor,
                             fontSize: 12,
                             fontWeight: FontWeight.w500),
                       ),
                 Text(
                   message,
-                  style: const TextStyle(color: KPrimaryColor, fontSize: 14),
+                  style: const TextStyle(color: Colors.black38, fontSize: 14),
                 ),
               ],
             ),
