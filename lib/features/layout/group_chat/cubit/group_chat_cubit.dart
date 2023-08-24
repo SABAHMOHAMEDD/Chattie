@@ -38,7 +38,10 @@ class GroupChatCubit extends Cubit<GroupChatStates> {
         FirebaseFirestore.instance.collection(CollectionName);
     groupMessegesList = [];
     try {
-      emaxMesseges.orderBy(kCreatedAt).snapshots().listen((event) {
+      emaxMesseges
+          .orderBy(kCreatedAt, descending: true)
+          .snapshots()
+          .listen((event) {
         groupMessegesList = [];
 
         event.docs.forEach((element) {

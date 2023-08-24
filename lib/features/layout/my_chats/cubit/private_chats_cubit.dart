@@ -69,7 +69,7 @@ class PrivateChatsCubit extends Cubit<PrivateChatsStates> {
           .collection(privateChatCollection)
           .doc(receiverId)
           .collection(privateMessagesCollection)
-          .orderBy('dateTime')
+          .orderBy('dateTime', descending: true)
           .snapshots()
           .listen((event) {
         messages = [];

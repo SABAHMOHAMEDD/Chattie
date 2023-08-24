@@ -13,8 +13,8 @@ class ChatBubble extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Container(
         decoration: BoxDecoration(
-            color: KPrimaryColor,
-            borderRadius: BorderRadius.only(
+            color: KPrimaryColor.withOpacity(.8),
+            borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(14),
                 bottomLeft: Radius.circular(14),
                 topLeft: Radius.circular(14))),

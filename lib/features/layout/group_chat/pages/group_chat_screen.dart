@@ -1,30 +1,35 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:chat_tharwat/core/cache_helper.dart';
-import 'package:chat_tharwat/features/layout/my_chats/cubit/private_chats_cubit.dart';
-import 'package:chat_tharwat/features/layout/my_chats/cubit/private_chats_states.dart';
-import 'package:chat_tharwat/features/register/models/user_model.dart';
+import 'package:chat_tharwat/features/layout/group_chat/cubit/group_chat_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/cache_helper.dart';
 import '../../../../core/check_internet_connection/cubit/internet_cubit.dart';
 import '../../../../core/constance/constants.dart';
 import '../../../../core/widgets/chat_bubble.dart';
+import '../cubit/group_chat_cubit.dart';
 
+class EmaxChatScreen extends StatefulWidget {
+  static const routeName = "EmaxChatScreen";
 
-class PrivateChatScreen extends StatelessWidget {
-  final TextEditingController messageController = TextEditingController();
+  @override
+  State<EmaxChatScreen> createState() => _EmaxChatScreenState();
+}
 
+class _EmaxChatScreenState extends State<EmaxChatScreen> {
+  final TextEditingController messagecontroller = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  static const routeName = "PrivateChatScreen";
+  List<String> CollectionName = ['Emax', 'Mojah', 'Flayerhost', 'NDS'];
 
   @override
   Widget build(BuildContext context) {
-    var userModel = ModalRoute.of(context)!.settings.arguments as UserModel;
+    var collectionName = ModalRoute.of(context)!.settings.arguments as String;
     Size screenSize = MediaQuery.of(context).size;
 
     return Builder(
       builder: (context) {
-        PrivateChatsCubit.get(context).GetMessages(receiverId: userModel.uId);
+        GroupChatCubit.get(context).getGroupMessages(collectionName);
+
         return Scaffold(
             backgroundColor: KSecondryColor,
             appBar: AppBar(
@@ -38,15 +43,15 @@ class PrivateChatScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.arrow_back_ios),
+                  icon: const Icon(Icons.arrow_back_ios),
                 ),
               ),
               backgroundColor: KSecondryColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Text(
-                userModel.name ?? "",
-                style: TextStyle(color: KPrimaryColor),
+                collectionName,
+                style: const TextStyle(color: KPrimaryColor),
               ),
             ),
             body: Container(
@@ -58,41 +63,42 @@ class PrivateChatScreen extends StatelessWidget {
                       topRight: Radius.circular(45))),
               child: Column(
                 children: [
-                  Expanded(child: Builder(
-                    builder: (context) {
-                      return BlocConsumer<PrivateChatsCubit,
-                          PrivateChatsStates>(
-                        listener: (context, stats) {},
-                        builder: (context, stats) {
-                          var messages =
-                              PrivateChatsCubit.get(context).messages;
-                          return ListView.builder(
-                              reverse: true,
-                              controller: scrollController,
-                              itemCount: PrivateChatsCubit.get(context)
-                                  .messages
-                                  .length,
-                              shrinkWrap: false,
-                              itemBuilder: (context, index) {
-                                print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-                                print(uId);
-                                print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                  Expanded(
+                    child: BlocBuilder<GroupChatCubit, GroupChatStates>(
+                      builder: (context, states) {
+                        var messageslist =
+                            GroupChatCubit.get(context).groupMessegesList;
+                        return ListView.builder(
+                            reverse: true,
+                            controller: scrollController,
+                            itemCount: messageslist.length,
+                            shrinkWrap: false,
+                            itemBuilder: (context, index) {
+                              print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                              print(uId);
+                              print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
-                                return CacheHelper.getData(key: 'uId') ==
-                                    messages[index].senderId
-                                    ? ChatBubble(
-                                  message: messages[index].message ?? "",
-                                )
-                                    : ChatBubbleFriend(
-                                  message: messages[index].message ?? "",
-                                  userBubbleColor: Colors.grey.shade200,
-                                  isPrivateChat: true,
-                                );
-                              });
-                        },
-                      );
-                    },
-                  )),
+                              return messageslist[index].id ==
+                                      CacheHelper.getData(key: 'uId')
+                                  ? ChatBubble(
+                                message:
+                                messageslist[index].message ?? "",
+                                userName:
+                                messageslist[index].userName ?? "",
+                              )
+                                  : ChatBubbleFriend(
+                                message:
+                                messageslist[index].message ?? "",
+                                userName:
+                                messageslist[index].userName ?? "",
+                                userBubbleColor: userBubbleColor(
+                                    messageslist[index].userColor),
+                                isPrivateChat: false,
+                              );
+                            });
+                      },
+                    ),
+                  ),
                   Container(
                     height: 70,
                     child: Padding(
@@ -124,35 +130,28 @@ class PrivateChatScreen extends StatelessWidget {
                         },
                         builder: (context, state) {
                           return TextField(
-                            controller: messageController,
+                            controller: messagecontroller,
                             //   maxLines: null,
                             textInputAction: TextInputAction.newline,
                             keyboardType: TextInputType.multiline,
                             cursorColor: KPrimaryColor,
-                            style: TextStyle(color: KPrimaryColor),
-
+                            style: const TextStyle(color: KPrimaryColor),
                             decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                     onPressed: () {
-                                      print(
-                                          'meeeeeeeeeeee llllllllllllllllllllllllllllllllllllllllllllllll');
-                                      print(CacheHelper.getData(key: 'uId'));
-                                      print(
-                                          'other oneeeeeee llllllllllllllllllllllllllllllllllllllllllllllll');
-                                      print(CacheHelper.getData(key: 'userId'));
-
                                       if (state is ConnectedState) {
-                                        PrivateChatsCubit.get(context)
-                                            .sendPrivateMessage(
-                                                receiverId: CacheHelper.getData(
-                                                    key: 'userId'),
-                                                dateTime:
-                                                    DateTime.now().toString(),
-                                                message: messageController.text,
-                                                senderId: CacheHelper.getData(
-                                                    key: 'uId'));
+                                        GroupChatCubit.get(context)
+                                            .sendGroupMessages(
+                                          userName:
+                                              CacheHelper.getData(key: 'name'),
+                                          CollectionName: collectionName,
+                                          message: messagecontroller.text,
+                                          uId: CacheHelper.getData(key: 'uId'),
+                                          userColor: CacheHelper.getData(
+                                              key: 'userColor'),
+                                        );
 
-                                        messageController.clear();
+                                        messagecontroller.clear();
                                       } else if (state is NotConnectedState) {
                                         Flushbar(
                                           flushbarStyle: FlushbarStyle.FLOATING,
@@ -174,8 +173,8 @@ class PrivateChatScreen extends StatelessWidget {
                                         curve: Curves.easeIn,
                                       );
                                     },
-                                    icon: const Icon(Icons.send,
-                                        color: KPrimaryColor)),
+                                    icon: Icon(Icons.send,
+                                        color: KPrimaryColor.withOpacity(.8))),
                                 hintText: "Send a message",
                                 hintStyle: TextStyle(
                                     color: KPrimaryColor.withOpacity(.8),
@@ -209,5 +208,44 @@ class PrivateChatScreen extends StatelessWidget {
             ));
       },
     );
+  }
+
+  userBubbleColor(int? userBubbleColorId) {
+    switch (userBubbleColorId) {
+      case 0:
+        return Colors.orange.shade200;
+      case 1:
+        return Colors.blue.shade200;
+      case 2:
+        return Colors.green.shade200;
+      case 3:
+        return Colors.pink.shade200;
+      case 4:
+        return Colors.red.shade200;
+      case 5:
+        return Colors.pinkAccent.shade100;
+      case 6:
+        return Colors.deepOrangeAccent.shade200;
+      case 7:
+        return Colors.blueAccent.shade100;
+      case 8:
+        return Colors.teal.shade200;
+      case 9:
+        return Colors.lightGreen.shade300;
+      case 10:
+        return Colors.brown.shade200;
+      case 11:
+        return Colors.cyan.shade200;
+      case 12:
+        return Colors.deepPurple.shade200;
+      case 13:
+        return Colors.green.shade200;
+      case 14:
+        return Colors.indigo.shade200;
+      case 15:
+        return Colors.teal.shade300;
+      default:
+        return KPrimaryColor;
+    }
   }
 }

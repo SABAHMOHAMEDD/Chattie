@@ -10,12 +10,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/bloc_observer.dart';
 import 'core/cache_helper.dart';
+import 'core/check_internet_connection/cubit/internet_cubit.dart';
 import 'core/notification_helper.dart';
 import 'features/home/cubit/home_cubit.dart';
 import 'features/home/pages/home_screen.dart';
 import 'features/layout/group_chat/cubit/group_chat_cubit.dart';
-import 'features/layout/group_chat/pages/emax_chat_screen.dart';
 import 'features/layout/group_chat/pages/grid_group_chat_screen.dart';
+import 'features/layout/group_chat/pages/group_chat_screen.dart';
 import 'features/layout/my_chats/cubit/private_chats_cubit.dart';
 import 'features/layout/my_chats/pages/private_chat_screen.dart';
 import 'features/layout/profile/pages/profile_screen.dart';
@@ -90,6 +91,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => PrivateChatsCubit()),
         BlocProvider(create: (context) => GroupChatCubit()),
+        BlocProvider(create: (context) => InternetCubit()..checkConnection()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

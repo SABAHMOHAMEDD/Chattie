@@ -4,7 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../../core/constance/constants.dart';
 import '../cubit/group_chat_cubit.dart';
-import 'emax_chat_screen.dart';
+import 'group_chat_screen.dart';
 
 class GroupChatScreen extends StatelessWidget {
   static const routeName = "GroupChatScreen";
@@ -20,11 +20,14 @@ class GroupChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 150),
           child: MasonryGridView.builder(
+            shrinkWrap: true,
             itemCount: 4,
             mainAxisSpacing: 7,
             crossAxisSpacing: 7,
@@ -40,16 +43,16 @@ class GroupChatScreen extends StatelessWidget {
                           arguments: CollectionName[index]);
                     },
                     child: Container(
-                      height: 170,
-                      width: 170,
+                      height: screenSize.height / 5,
+                      width: screenSize.height / 5,
                       decoration: BoxDecoration(
-                          color: KPrimaryColor,
+                          color: KPrimaryColor.withOpacity(.8),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                                color: KPrimaryColor.withOpacity(0.4),
-                                blurRadius: 2,
-                                offset: const Offset(5, 10))
+                                color: KPrimaryColor.withOpacity(0.2),
+                                blurRadius: 1,
+                                offset: const Offset(0, 10))
                           ]),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
