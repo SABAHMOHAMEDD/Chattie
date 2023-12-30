@@ -4,10 +4,12 @@ import 'package:chat_tharwat/features/register/cubit/register_cubit.dart';
 import 'package:chat_tharwat/features/register/pages/register_screen.dart';
 import 'package:chat_tharwat/features/splash/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'DailyStepsScreen.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache_helper.dart';
 import 'core/check_internet_connection/cubit/internet_cubit.dart';
@@ -23,13 +25,6 @@ import 'features/layout/profile/pages/profile_screen.dart';
 import 'features/login/cubit/login_cubit.dart';
 import 'firebase_options.dart';
 
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   await Firebase.initializeApp();
-//   NotificationHelper().showNotificationHeadUp(message);
-// }
-
 void main() async {
   Bloc.observer = MyBlocObserver();
 
@@ -38,8 +33,25 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  var token = await FirebaseMessaging.instance.getToken();
+  print("ttttttttttttttttttttttttttttt");
+
+  print(token.toString());
+  print("ttttttttttttttttttttttttttttt");
+
+  FirebaseMessaging.onMessage.listen((event) {
+    print('kkkkkkkkkkkkkkkkkkkkkkkk');
+    print(event.data.toString());
+    print('kkkkkkkkkkkkkkkkkkkkkkkk');
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    print('*******************************');
+    print(event.data.toString());
+    print('*******************************');
+  });
+
   await CacheHelper.init();
-  //CacheHelper.removeData(key: 'uId');
 
   final String? uId = CacheHelper.getData(key: 'uId');
 
@@ -50,9 +62,9 @@ void main() async {
     widget = SplashScreen();
   }
 
-  print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
-  print(uId);
-  print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+  // print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+  // print(uId);
+  // print("AAAAAAAAAAAAAAAAAAAAAAAAAA");
 
   runApp(MyApp(widget));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -70,17 +82,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   NotificationHelper notiHelper = NotificationHelper();
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   // request permisiion //getToken
-  //   notiHelper.requestPermissionAndGetToken();
-  //
-  //   // create local notification settings and info
-  //   notiHelper.configLocalNotification();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +112,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         // initialRoute: SplashScreen.routeName,
-        home: widget.startWidget,
-        // home: AllUsersScreen(),
+        home: DailyStepsScreen(),
       ),
     );
   }

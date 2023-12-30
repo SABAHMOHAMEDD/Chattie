@@ -1,5 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+        <intent>
+            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+        </intent>
+    </queries>
+
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.WRITE_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.WRITE_STEPS" />
+
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
@@ -19,6 +33,16 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+            <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="YOUR_ADMOB_APP_ID" />
+            <meta-data
+                android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT"
+                android:value="true" />
+            <meta-data
+                android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+                android:value="true" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

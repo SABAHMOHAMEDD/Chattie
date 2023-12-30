@@ -10,7 +10,6 @@ import '../../../../core/check_internet_connection/cubit/internet_cubit.dart';
 import '../../../../core/constance/constants.dart';
 import '../../../../core/widgets/chat_bubble.dart';
 
-
 class PrivateChatScreen extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
 
@@ -79,15 +78,15 @@ class PrivateChatScreen extends StatelessWidget {
                                 print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
 
                                 return CacheHelper.getData(key: 'uId') ==
-                                    messages[index].senderId
+                                        messages[index].senderId
                                     ? ChatBubble(
-                                  message: messages[index].message ?? "",
-                                )
+                                        message: messages[index].message ?? "",
+                                      )
                                     : ChatBubbleFriend(
-                                  message: messages[index].message ?? "",
-                                  userBubbleColor: Colors.grey.shade200,
-                                  isPrivateChat: true,
-                                );
+                                        message: messages[index].message ?? "",
+                                        userBubbleColor: Colors.grey.shade200,
+                                        isPrivateChat: true,
+                                      );
                               });
                         },
                       );

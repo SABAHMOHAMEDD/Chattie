@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/cache_helper.dart';
@@ -91,15 +90,15 @@ class HomeCubit extends Cubit<HomeStates> {
         .putFile(profileimage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
-        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+      //  print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         CacheHelper.saveData(key: 'imagePath', value: profileimage!.path);
-        print(profileimage!.path);
-        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        //   print(profileimage!.path);
+        //   print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
         UpdateUser(image: value);
 
         emit(ProfileUpLoadImagePickedByGallerySuccessState());
-        print(value);
+        // print(value);
       }).catchError((error) {
         emit(ProfileUpLoadImagePickedByGalleryErrorState());
       });
@@ -147,7 +146,7 @@ class HomeCubit extends Cubit<HomeStates> {
         .doc(CacheHelper.getData(key: 'uId'))
         .get()
         .then((value) {
-      print(value.data());
+      //  print(value.data());
 
       model = UserModel.fromJson(value.data()!);
       CacheHelper.saveData(key: 'uId', value: model!.uId);
@@ -155,41 +154,40 @@ class HomeCubit extends Cubit<HomeStates> {
       CacheHelper.saveData(key: 'email', value: model!.email);
       CacheHelper.saveData(key: 'name', value: model!.name);
       CacheHelper.saveData(key: 'userImage', value: model!.userImage);
-      print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      print("user uId is : ${CacheHelper.getData(key: 'uId')}");
-      print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      // emit(GetUserSuccessState(userModel: model));
-      print(model!.name);
-      print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+      // print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+      // print("user uId is : ${CacheHelper.getData(key: 'uId')}");
+      // print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+      // print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+      // print(model!.name);
+      // print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     }).catchError((error) {
       print(error.toString());
       // emit(GetUserFailureState(errorMessage: error.toString()));
     });
   }
 
-  void clearProfileImageCache() async {
-    if (profileimage != null) {
-      // Get the file path of the profile image
-      final filePath = profileimage!.path;
-      final file = File(filePath);
-      // Delete the cached file if it exists
-      if (file.existsSync()) {
-        print(
-            'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
-        print(filePath);
-        print(
-            'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
-
-        await DefaultCacheManager().removeFile(filePath);
-        print(
-            '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        print(filePath);
-
-        print('Cached profile image deleted');
-        print(
-            '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-      }
-    }
-  }
+// void clearProfileImageCache() async {
+//   if (profileimage != null) {
+//     // Get the file path of the profile image
+//     final filePath = profileimage!.path;
+//     final file = File(filePath);
+//     // Delete the cached file if it exists
+//     if (file.existsSync()) {
+//       print(
+//           'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
+//       print(filePath);
+//       print(
+//           'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
+//
+//       await DefaultCacheManager().removeFile(filePath);
+//       print(
+//           '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+//       print(filePath);
+//
+//       print('Cached profile image deleted');
+//       print(
+//           '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+//     }
+//   }
+// }
 }

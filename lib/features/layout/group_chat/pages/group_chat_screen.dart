@@ -81,20 +81,20 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                               return messageslist[index].id ==
                                       CacheHelper.getData(key: 'uId')
                                   ? ChatBubble(
-                                message:
-                                messageslist[index].message ?? "",
-                                userName:
-                                messageslist[index].userName ?? "",
-                              )
+                                      message:
+                                          messageslist[index].message ?? "",
+                                      userName:
+                                          messageslist[index].userName ?? "",
+                                    )
                                   : ChatBubbleFriend(
-                                message:
-                                messageslist[index].message ?? "",
-                                userName:
-                                messageslist[index].userName ?? "",
-                                userBubbleColor: userBubbleColor(
-                                    messageslist[index].userColor),
-                                isPrivateChat: false,
-                              );
+                                      message:
+                                          messageslist[index].message ?? "",
+                                      userName:
+                                          messageslist[index].userName ?? "",
+                                      userBubbleColor: userBubbleColor(
+                                          messageslist[index].userColor),
+                                      isPrivateChat: false,
+                                    );
                             });
                       },
                     ),

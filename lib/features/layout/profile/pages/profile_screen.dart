@@ -79,7 +79,7 @@ class ProfileScreen extends StatelessWidget {
                                   return CircleAvatar(
                                     radius: 76,
                                     backgroundImage:
-                                    NetworkImage(userModel.userImage!),
+                                        NetworkImage(userModel.userImage!),
                                   );
                                 } else {
                                   return SizedBox(); // Empty container when userModel.userImage is null
@@ -106,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                               child: CircleAvatar(
                                 backgroundColor: KPrimaryColor.withOpacity(.6),
                                 radius: 15,
-                                child: Icon(
+                                child: const Icon(
                                   IconBroken.Camera,
                                   color: Colors.white,
                                 ),
@@ -125,8 +125,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        HomeCubit.get(context).clearProfileImageCache();
                         SignOut(context);
+                        HomeCubit.get(context).profileimage = null;
                       },
                       icon: Icon(
                         Icons.exit_to_app,
