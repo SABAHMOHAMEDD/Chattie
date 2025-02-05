@@ -1,4 +1,4 @@
-# 🗨️ Flutter Firebase Chat App
+# 🗨️ Chattie App
 
 ## 🚀 Overview
 A real-time chat application built with **Flutter** and **Firebase**, supporting both **private chats** and **group chats**. The app provides a seamless and secure messaging experience with a modern UI.
@@ -17,15 +17,13 @@ A real-time chat application built with **Flutter** and **Firebase**, supporting
 
 ## 📸 Screenshots
 
-| Private Chat | Group Chat |
-|-------------|-----------|
-| ![Private Chat](path_to_private_chat_screenshot) | ![Group Chat](path_to_group_chat_screenshot) |
+| Login | Private Chat | Group Chat |
+|-------------|-----------|-----------|
+| ![Login](https://firebasestorage.googleapis.com/v0/b/chattharwat.appspot.com/o/photo_2025-02-05_16-27-09.jpg?alt=media&token=76512cf2-3f02-4dc2-838b-88abf0a18a76) | ![Private Chat](https://firebasestorage.googleapis.com/v0/b/chattharwat.appspot.com/o/photo_2025-02-05_16-27-46.jpg?alt=media&token=ab660aa8-e081-4f37-a5a0-2ea09a51e6ef) |![Group Chat](https://firebasestorage.googleapis.com/v0/b/chattharwat.appspot.com/o/photo_2025-02-05_16-27-03.jpg?alt=media&token=2a39ece1-66b3-46d2-95ab-6a3d136d8029) |
 
 ---
 
 ## 🏛️ Architecture & Design Pattern
-
-This app follows the **MVVM (Model-View-ViewModel) pattern** along with **Repository Pattern** to ensure a clean and scalable codebase.
 
 ### 🛠️ Tech Stack:
 - **Flutter** - Cross-platform UI framework 🖌️
@@ -75,7 +73,7 @@ flutter run
 
 Want to contribute? Feel free to fork the repository and submit a pull request!
 
-📩 **Contact:** [your.email@example.com](mailto:sabahmohamed3312@example.com)  
+📩 **Contact:** [Email](mailto:sabahmohamed3312@gmail.com)  
 🔗 **GitHub:** [GitHub Profile](https://github.com/SABAHMOHAMEDD)  
 💼 **LinkedIn:** [LinkedIn Profile](https://www.linkedin.com/in/sabah-mohamed-39320721a/)  
 
