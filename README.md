@@ -43,12 +43,12 @@ This app follows the **MVVM (Model-View-ViewModel) pattern** along with **Reposi
 
 1️⃣ **Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/chat_app.git
+git clone https://github.com/SABAHMOHAMEDD/Chattie.git
 ```
 
 2️⃣ **Navigate to the project directory:**
 ```bash
-cd chat_app
+cd Chattie
 ```
 
 3️⃣ **Install dependencies:**
