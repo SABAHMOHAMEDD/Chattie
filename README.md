@@ -1,4 +1,4 @@
-# chat_tharwat
+# chat
 
 A new Flutter project.
 
