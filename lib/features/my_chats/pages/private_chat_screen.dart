@@ -1,7 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:chat_tharwat/core/cache_helper.dart';
-import 'package:chat_tharwat/features/layout/my_chats/cubit/private_chats_cubit.dart';
-import 'package:chat_tharwat/features/layout/my_chats/cubit/private_chats_states.dart';
 import 'package:chat_tharwat/features/register/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,12 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/check_internet_connection/cubit/internet_cubit.dart';
 import '../../../../core/constance/constants.dart';
 import '../../../../core/widgets/chat_bubble.dart';
+import '../cubit/private_chats_cubit.dart';
+import '../cubit/private_chats_states.dart';
 
 class PrivateChatScreen extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
 
   final ScrollController scrollController = ScrollController();
   static const routeName = "PrivateChatScreen";
+
+  PrivateChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class PrivateChatScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.arrow_back_ios),
+                  icon: const Icon(Icons.arrow_back_ios),
                 ),
               ),
               backgroundColor: KSecondryColor,
@@ -45,7 +47,7 @@ class PrivateChatScreen extends StatelessWidget {
               centerTitle: true,
               title: Text(
                 userModel.name ?? "",
-                style: TextStyle(color: KPrimaryColor),
+                style: const TextStyle(color: KPrimaryColor),
               ),
             ),
             body: Container(
@@ -73,9 +75,7 @@ class PrivateChatScreen extends StatelessWidget {
                                   .length,
                               shrinkWrap: false,
                               itemBuilder: (context, index) {
-                                print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-                                print(uId);
-                                print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+
 
                                 return CacheHelper.getData(key: 'uId') ==
                                         messages[index].senderId
@@ -92,7 +92,7 @@ class PrivateChatScreen extends StatelessWidget {
                       );
                     },
                   )),
-                  Container(
+                  SizedBox(
                     height: 70,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -128,17 +128,12 @@ class PrivateChatScreen extends StatelessWidget {
                             textInputAction: TextInputAction.newline,
                             keyboardType: TextInputType.multiline,
                             cursorColor: KPrimaryColor,
-                            style: TextStyle(color: KPrimaryColor),
+                            style: const TextStyle(color: KPrimaryColor),
 
                             decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                     onPressed: () {
-                                      print(
-                                          'meeeeeeeeeeee llllllllllllllllllllllllllllllllllllllllllllllll');
-                                      print(CacheHelper.getData(key: 'uId'));
-                                      print(
-                                          'other oneeeeeee llllllllllllllllllllllllllllllllllllllllllllllll');
-                                      print(CacheHelper.getData(key: 'userId'));
+
 
                                       if (state is ConnectedState) {
                                         PrivateChatsCubit.get(context)
@@ -155,13 +150,13 @@ class PrivateChatScreen extends StatelessWidget {
                                       } else if (state is NotConnectedState) {
                                         Flushbar(
                                           flushbarStyle: FlushbarStyle.FLOATING,
-                                          margin: EdgeInsets.all(25),
+                                          margin: const EdgeInsets.all(25),
                                           flushbarPosition:
                                               FlushbarPosition.TOP,
                                           borderRadius:
                                               BorderRadius.circular(25),
                                           message: state.message,
-                                          duration: Duration(seconds: 3),
+                                          duration: const Duration(seconds: 3),
                                           backgroundColor: Colors.red.shade400,
                                         ).show(context);
                                       }

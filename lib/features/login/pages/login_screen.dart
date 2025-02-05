@@ -38,11 +38,9 @@ class LoginScreen extends StatelessWidget {
             context,
             HomeScreen.routeName,
           );
-          HomeCubit.get(context).GetUserData();
+          HomeCubit.get(context).getUserData();
 
-          print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-          print(email);
-          print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
         } else if (state is LoginFailureState) {
           isLoading = false;
 
@@ -69,15 +67,17 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const Image(
                             height: 100, width: 100, image: AssetImage(KLogo)),
+
+                        const SizedBox(height: 8,),
                         const Text(
-                          "AlHarethi Chat",
+                          "Chattie",
                           style: TextStyle(
                               fontFamily: "Schyler",
                               color: Colors.white,
                               fontSize: 24),
                         ),
                         SizedBox(
-                          height: screenSize.height / 12,
+                          height: screenSize.height / 16,
                         ),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -144,7 +144,7 @@ class LoginScreen extends StatelessWidget {
                                 Navigator.pushNamed(
                                     context, RegisterScreen.routeName);
                               },
-                              child: Text(
+                              child: const Text(
                                 ' Register',
                                 style: TextStyle(color: KSecondryColor),
                               ),

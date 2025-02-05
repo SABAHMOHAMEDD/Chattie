@@ -39,11 +39,9 @@ class RegisterScreen extends StatelessWidget {
 
   Future<UserCredential> signInWithFacebook() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
-    print('///////////////////////////');
 
     final OAuthCredential facebookAuthCredential =
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
-    print('///////////////////////////');
 
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
@@ -93,15 +91,17 @@ class RegisterScreen extends StatelessWidget {
                         height: 100,
                         width: 100,
                       ),
+                      const SizedBox(height: 8,),
+
                       const Text(
-                        " AlHarethi Chat",
+                        " Chattie",
                         style: TextStyle(
                             fontFamily: "Schyler",
                             color: Colors.white,
                             fontSize: 24),
                       ),
                       SizedBox(
-                        height: screenSize.height / 12,
+                        height: screenSize.height / 16,
                       ),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.start,

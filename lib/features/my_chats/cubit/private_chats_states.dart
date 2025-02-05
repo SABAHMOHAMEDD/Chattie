@@ -1,4 +1,5 @@
-import 'package:chat_tharwat/features/layout/my_chats/models/private_message_model.dart';
+
+import '../models/private_message_model.dart';
 
 abstract class PrivateChatsStates {}
 

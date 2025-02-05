@@ -7,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/cache_helper.dart';
-import '../../layout/group_chat/pages/grid_group_chat_screen.dart';
-import '../../layout/my_chats/pages/all_chats_screen.dart';
+
+import '../../group_chat/pages/grid_group_chat_screen.dart';
+import '../../my_chats/pages/all_chats_screen.dart';
 import '../../register/models/user_model.dart';
 import 'home_states.dart';
 
@@ -18,8 +19,8 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
-  List<Widget> Screens = [
-    MyChatsScreen(),
+  List<Widget> screens = [
+    const MyChatsScreen(),
     GroupChatScreen(),
   ];
   List<String> title = [
@@ -27,41 +28,42 @@ class HomeCubit extends Cubit<HomeStates> {
     'Groups',
   ];
 
-  void ChangebottomNavBar(int index) {
-    if (index == 0) {}
+  void changeBottomNavBar(int index) {
+    if (index == 0) {
+
+    }
     if (index == 1) {}
     currentIndex = index;
     emit(ChangeBottomNavState());
-    GetUserData();
+    getUserData();
   }
 
   List<UserModel> users = [];
 
-  void GetAllUsers() {
+  void getAllUsers() {
     users = [];
     emit(GetAllUsersLoadingState());
     FirebaseFirestore.instance.collection('users').get().then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         if (element.data()['uId'] != CacheHelper.getData(key: 'uId')) {
           users.add(UserModel.fromJson(element.data()));
         }
-      });
+      }
       emit(GetAllUsersSuccessState());
     }).catchError((error) {
       emit(GetAllUsersFailureState(errorMessage: error.toString()));
-      print(error.toString());
     });
   }
 
-  File? profileimage;
+  File? profileImage;
   final picker = ImagePicker();
 
   Future<void> getProfileImageByGallery() async {
     XFile? imageFileProfile =
         await picker.pickImage(source: ImageSource.gallery);
-    if (imageFileProfile == null) return null;
+    if (imageFileProfile == null) return;
 
-    profileimage = File(imageFileProfile.path);
+    profileImage = File(imageFileProfile.path);
     emit(ProfileImagePickedByGallerySuccessState());
   }
 
@@ -69,16 +71,16 @@ class HomeCubit extends Cubit<HomeStates> {
     XFile? imageFileProfile =
         await picker.pickImage(source: ImageSource.camera);
     if (imageFileProfile == null) return;
-    profileimage = File(imageFileProfile.path);
+    profileImage = File(imageFileProfile.path);
     emit(ProfileImagePickedByCamSuccessState());
   }
 
   //upload image to firebase storage
   // then have the url to send it to firebase firestore in the update func
 
-  void UpdateUserImages() {
+  void updateUserImages() {
     emit(UpdateUserImageLoadingState());
-    if (profileimage != null) {
+    if (profileImage != null) {
       uploadProfileImage();
     }
   }
@@ -86,19 +88,16 @@ class HomeCubit extends Cubit<HomeStates> {
   void uploadProfileImage() {
     FirebaseStorage.instance
         .ref()
-        .child('users/${Uri.file(profileimage?.path ?? "").pathSegments.last}')
-        .putFile(profileimage!)
+        .child('users/${Uri.file(profileImage?.path ?? "").pathSegments.last}')
+        .putFile(profileImage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
-      //  print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-        CacheHelper.saveData(key: 'imagePath', value: profileimage!.path);
-        //   print(profileimage!.path);
-        //   print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        CacheHelper.saveData(key: 'imagePath', value: profileImage!.path);
 
-        UpdateUser(image: value);
+
+        updateUser(image: value);
 
         emit(ProfileUpLoadImagePickedByGallerySuccessState());
-        // print(value);
       }).catchError((error) {
         emit(ProfileUpLoadImagePickedByGalleryErrorState());
       });
@@ -107,7 +106,7 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  void UpdateUser({
+  void updateUser({
     required String? image,
   }) {
     UserModel userModel = UserModel(
@@ -131,7 +130,7 @@ class HomeCubit extends Cubit<HomeStates> {
         .update(userModel.toJson())
         .then((value) {
       emit(UpdateUserDataSuccessState());
-      GetUserData();
+      getUserData();
     }).catchError((error) {
       emit(UpdateUserDataErrorState(error.toString()));
     });
@@ -139,14 +138,13 @@ class HomeCubit extends Cubit<HomeStates> {
 
   UserModel? model;
 
-  void GetUserData() {
+  void getUserData() {
     // emit(GetUserLoadingState());
     FirebaseFirestore.instance
         .collection('users')
         .doc(CacheHelper.getData(key: 'uId'))
         .get()
         .then((value) {
-      //  print(value.data());
 
       model = UserModel.fromJson(value.data()!);
       CacheHelper.saveData(key: 'uId', value: model!.uId);
@@ -154,40 +152,11 @@ class HomeCubit extends Cubit<HomeStates> {
       CacheHelper.saveData(key: 'email', value: model!.email);
       CacheHelper.saveData(key: 'name', value: model!.name);
       CacheHelper.saveData(key: 'userImage', value: model!.userImage);
-      // print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      // print("user uId is : ${CacheHelper.getData(key: 'uId')}");
-      // print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      // print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      // print(model!.name);
-      // print(r"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
     }).catchError((error) {
-      print(error.toString());
-      // emit(GetUserFailureState(errorMessage: error.toString()));
+      debugPrint(error.toString());
     });
   }
 
-// void clearProfileImageCache() async {
-//   if (profileimage != null) {
-//     // Get the file path of the profile image
-//     final filePath = profileimage!.path;
-//     final file = File(filePath);
-//     // Delete the cached file if it exists
-//     if (file.existsSync()) {
-//       print(
-//           'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
-//       print(filePath);
-//       print(
-//           'lllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooopppppppppppp');
-//
-//       await DefaultCacheManager().removeFile(filePath);
-//       print(
-//           '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-//       print(filePath);
-//
-//       print('Cached profile image deleted');
-//       print(
-//           '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-//     }
-//   }
-// }
+
 }

@@ -2,7 +2,7 @@ import 'package:chat_tharwat/core/cache_helper.dart';
 import 'package:chat_tharwat/core/constance/constants.dart';
 import 'package:chat_tharwat/features/home/cubit/home_cubit.dart';
 import 'package:chat_tharwat/features/home/cubit/home_states.dart';
-import 'package:chat_tharwat/features/layout/my_chats/pages/private_chat_screen.dart';
+import 'package:chat_tharwat/features/my_chats/pages/private_chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -18,7 +18,7 @@ class MyChatsScreen extends StatelessWidget {
 
     return Builder(
       builder: (BuildContext context) {
-        HomeCubit.get(context).GetAllUsers();
+        HomeCubit.get(context).getAllUsers();
 
         return BlocConsumer<HomeCubit, HomeStates>(
           listener: (BuildContext context, state) {},
@@ -36,15 +36,12 @@ class MyChatsScreen extends StatelessWidget {
 
                           Navigator.pushNamed(context, PrivateChatScreen.routeName,
                               arguments: HomeCubit.get(context).users[index]);
-                          print(
-                              'oooooooooooooooooooooooooooooooooooooooooooooooooo');
+
                           CacheHelper.saveData(
                               key: 'userId',
                               value: HomeCubit.get(context).users[index].uId);
 
-                          print(CacheHelper.getData(key: 'userId'));
-                          print(
-                              'oooooooooooooooooooooooooooooooooooooooooooooooooo');
+
                         },
                         child: Container(
                           height: 100,
@@ -81,7 +78,7 @@ class MyChatsScreen extends StatelessWidget {
                                               .users[index]
                                               .name ??
                                               "",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                           ),
                                         ),

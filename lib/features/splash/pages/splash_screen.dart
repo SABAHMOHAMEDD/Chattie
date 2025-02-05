@@ -12,15 +12,15 @@ class SplashScreen extends StatelessWidget {
     return AnimatedSplashScreen(
       splashIconSize: 150,
       backgroundColor: KPrimaryColor.withOpacity(0.9),
-      splash: Column(
+      splash: const Column(
         children: [
           Image(
             image: AssetImage(KLogo),
             height: 100,
             width: 100,
           ),
-          const Text(
-            "AlHarethi Chat",
+          Text(
+            "Chattie",
             style: TextStyle(
                 fontFamily: "Schyler", color: Colors.white, fontSize: 24),
           ),

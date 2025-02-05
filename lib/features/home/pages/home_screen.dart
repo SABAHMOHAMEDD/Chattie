@@ -2,13 +2,14 @@ import 'package:chat_tharwat/core/constance/constants.dart';
 import 'package:chat_tharwat/features/home/cubit/home_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../core/icon_broken.dart';
-import '../../layout/profile/pages/profile_screen.dart';
+import '../../profile/pages/profile_screen.dart';
 import '../cubit/home_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "HomeScreen";
+
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class HomeScreen extends StatelessWidget {
       listener: (context, states) {},
       builder: (context, states) {
         var cubit = HomeCubit.get(context);
-        HomeCubit.get(context).GetUserData();
+        HomeCubit.get(context).getUserData();
 
         return Scaffold(
           appBar: AppBar(
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             centerTitle: true,
             title: Text(
               cubit.title[cubit.currentIndex],
-              style: TextStyle(color: KPrimaryColor),
+              style: const TextStyle(color: KPrimaryColor),
             ),
             actions: [
               IconButton(
@@ -48,7 +49,7 @@ class HomeScreen extends StatelessWidget {
             backgroundColor: KAppBarColor,
             currentIndex: cubit.currentIndex,
             onTap: (index) {
-              cubit.ChangebottomNavBar(index);
+              cubit.changeBottomNavBar(index);
             },
             items: const [
               BottomNavigationBarItem(
@@ -58,7 +59,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           backgroundColor: KPrimaryColor,
-          body: cubit.Screens[cubit.currentIndex],
+          body: cubit.screens[cubit.currentIndex],
         );
       },
     );

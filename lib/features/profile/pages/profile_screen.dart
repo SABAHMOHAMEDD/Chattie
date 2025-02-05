@@ -7,10 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/cache_helper.dart';
 import '../../../../core/constance/constants.dart';
 import '../../../../core/icon_broken.dart';
-import '../../../register/models/user_model.dart';
+import '../../register/models/user_model.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = "ProfileScreen";
+
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var profileImage = HomeCubit.get(context).profileimage;
+        var profileImage = HomeCubit.get(context).profileImage;
         var userModel = ModalRoute.of(context)!.settings.arguments as UserModel;
 
         if (HomeCubit.get(context).model != null) {
@@ -31,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back_ios,
                     size: 25,
                   ),
@@ -41,16 +43,16 @@ class ProfileScreen extends StatelessWidget {
               actions: [
                 IconButton(
                     onPressed: () {
-                      HomeCubit.get(context).UpdateUserImages();
+                      HomeCubit.get(context).updateUserImages();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       IconBroken.Edit,
                       color: KPrimaryColor,
                       size: 25,
                     ))
               ],
             ),
-            body: Container(
+            body: SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
                 child: Column(
@@ -82,17 +84,17 @@ class ProfileScreen extends StatelessWidget {
                                         NetworkImage(userModel.userImage!),
                                   );
                                 } else {
-                                  return SizedBox(); // Empty container when userModel.userImage is null
+                                  return const SizedBox(); // Empty container when userModel.userImage is null
                                 }
                               },
                               fallback: (context) {
                                 if (profileImage != null) {
                                   return CircleAvatar(
                                     radius: 76,
-                                    backgroundImage: FileImage(profileImage!),
+                                    backgroundImage: FileImage(profileImage),
                                   );
                                 } else {
-                                  return SizedBox(); // Empty container when profileImage is null
+                                  return const SizedBox(); // Empty container when profileImage is null
                                 }
                               },
                             ),
@@ -102,7 +104,7 @@ class ProfileScreen extends StatelessWidget {
                               HomeCubit.get(context).getProfileImageByGallery();
                             },
                             icon: Padding(
-                              padding: EdgeInsets.all(1.0),
+                              padding: const EdgeInsets.all(1.0),
                               child: CircleAvatar(
                                 backgroundColor: KPrimaryColor.withOpacity(.6),
                                 radius: 15,
@@ -118,7 +120,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     Text(
                       CacheHelper.getData(key: 'name'),
-                      style: TextStyle(color: KPrimaryColor, fontSize: 20),
+                      style: const TextStyle(color: KPrimaryColor, fontSize: 20),
                     ),
                     SizedBox(
                       height: screenSize.height / 3,
@@ -126,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                     IconButton(
                       onPressed: () {
                         SignOut(context);
-                        HomeCubit.get(context).profileimage = null;
+                        HomeCubit.get(context).profileImage = null;
                       },
                       icon: Icon(
                         Icons.exit_to_app,
@@ -144,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         } else {
-          return Scaffold(body: SizedBox());
+          return const Scaffold(body: SizedBox());
         }
       },
     );

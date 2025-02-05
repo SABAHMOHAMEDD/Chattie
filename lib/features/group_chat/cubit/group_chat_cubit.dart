@@ -1,8 +1,8 @@
-import 'package:chat_tharwat/features/layout/group_chat/models/group_messages_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constance/constants.dart';
+import '../models/group_messages_model.dart';
 import 'group_chat_states.dart';
 
 class GroupChatCubit extends Cubit<GroupChatStates> {

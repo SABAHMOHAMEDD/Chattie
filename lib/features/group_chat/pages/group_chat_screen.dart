@@ -1,25 +1,27 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:chat_tharwat/features/layout/group_chat/cubit/group_chat_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/cache_helper.dart';
 import '../../../../core/check_internet_connection/cubit/internet_cubit.dart';
 import '../../../../core/constance/constants.dart';
 import '../../../../core/widgets/chat_bubble.dart';
 import '../cubit/group_chat_cubit.dart';
+import '../cubit/group_chat_states.dart';
+
 
 class EmaxChatScreen extends StatefulWidget {
   static const routeName = "EmaxChatScreen";
+
+  const EmaxChatScreen({super.key});
 
   @override
   State<EmaxChatScreen> createState() => _EmaxChatScreenState();
 }
 
 class _EmaxChatScreenState extends State<EmaxChatScreen> {
-  final TextEditingController messagecontroller = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  List<String> CollectionName = ['Emax', 'Mojah', 'Flayerhost', 'NDS'];
+  List<String> collectionName = ['group 1', 'group 2', 'group 3', 'group 4'];
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +76,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                             itemCount: messageslist.length,
                             shrinkWrap: false,
                             itemBuilder: (context, index) {
-                              print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-                              print(uId);
-                              print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+
 
                               return messageslist[index].id ==
                                       CacheHelper.getData(key: 'uId')
@@ -99,7 +99,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                       },
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 70,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -130,7 +130,7 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                         },
                         builder: (context, state) {
                           return TextField(
-                            controller: messagecontroller,
+                            controller: messageController,
                             //   maxLines: null,
                             textInputAction: TextInputAction.newline,
                             keyboardType: TextInputType.multiline,
@@ -145,23 +145,23 @@ class _EmaxChatScreenState extends State<EmaxChatScreen> {
                                           userName:
                                               CacheHelper.getData(key: 'name'),
                                           CollectionName: collectionName,
-                                          message: messagecontroller.text,
+                                          message: messageController.text,
                                           uId: CacheHelper.getData(key: 'uId'),
                                           userColor: CacheHelper.getData(
                                               key: 'userColor'),
                                         );
 
-                                        messagecontroller.clear();
+                                        messageController.clear();
                                       } else if (state is NotConnectedState) {
                                         Flushbar(
                                           flushbarStyle: FlushbarStyle.FLOATING,
-                                          margin: EdgeInsets.all(25),
+                                          margin: const EdgeInsets.all(25),
                                           flushbarPosition:
                                               FlushbarPosition.TOP,
                                           borderRadius:
                                               BorderRadius.circular(25),
                                           message: state.message,
-                                          duration: Duration(seconds: 3),
+                                          duration: const Duration(seconds: 3),
                                           backgroundColor: Colors.red.shade400,
                                         ).show(context);
                                       }

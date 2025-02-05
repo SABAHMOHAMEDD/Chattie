@@ -16,7 +16,7 @@ class GroupChatScreen extends StatelessWidget {
     'assets/images/chattingg.png',
     'assets/images/socialmedia.png'
   ];
-  List<String> GridTitle = ['Emax', 'Mojah', 'Flayerhost', 'NDS'];
+  List<String> GridTitle = ['Group 1', 'Group 2', 'Group 3', 'Group 4'];
 
   @override
   Widget build(BuildContext context) {
